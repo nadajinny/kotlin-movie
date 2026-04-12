@@ -4,12 +4,16 @@ import domain.cinema.Movie
 import domain.cinema.MovieTheater
 import domain.cinema.Showing
 import domain.reservation.Reservation
+import domain.reservation.ReservationInfo
 import domain.seat.Seat
 import kotlinx.datetime.LocalDate
 import view.InputView
 import view.OutputView
 
-class ReservationController(val movieTheater: MovieTheater) {
+class ReservationController(
+    val movieTheater: MovieTheater,
+    val reservationInfos: List<ReservationInfo>,
+) {
     fun run(): Pair<Showing, List<Seat>> {
         val movie = chooseMovie()
         val date = chooseDate(movie)
@@ -52,7 +56,7 @@ class ReservationController(val movieTheater: MovieTheater) {
 
         require(input.toIntOrNull() != null && input.toInt() <= showings.size) { "선택하신 상영 번호는 없는 상영 번호입니다." }
 
-        Reservation.checkReservationHistory(movieTheater.reservationInfos, showings[input.toInt() - 1])
+        Reservation.checkReservationHistory(reservationInfos, showings[input.toInt() - 1])
 
         return showings[input.toInt() - 1]
     }

@@ -9,7 +9,10 @@ import org.junit.jupiter.api.assertThrows
 
 class ReservationControllerTest {
 
-    val controller = ReservationController(TestFixtureData.movieTheater)
+    val controller = ReservationController(
+        TestFixtureData.movieTheater,
+        TestFixtureData.reservationInfos,
+    )
     val flowController = FlowController()
 
     @Test

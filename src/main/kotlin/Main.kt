@@ -8,6 +8,7 @@ import domain.cinema.MovieTheater
 import domain.cinema.Screen
 import domain.cinema.Showing
 import domain.reservation.Cart
+import domain.reservation.ReservationInfo
 import domain.seat.Seat
 import domain.seat.SeatCoordinate
 import domain.seat.SeatGrade
@@ -66,10 +67,10 @@ fun main() {
     val movieTheater = MovieTheater(
         movies,
         showings,
-        emptyList(),
     )
 
     lateinit var cart: Cart
+    var reservationInfos = listOf<ReservationInfo>()
     val cartController = CartController()
     val flowController = FlowController()
 
@@ -77,6 +78,7 @@ fun main() {
     while (flowController.start(input)) {
         val reservationController = ReservationController(
             movieTheater = movieTheater,
+            reservationInfos = reservationInfos,
         )
         val pair = reservationController.run()
 
@@ -84,6 +86,7 @@ fun main() {
             showing = pair.first,
             seats = pair.second,
         )
+        reservationInfos = cart.reservationInfos
 
         input = InputView.continueTicketing()
     }

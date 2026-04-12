@@ -55,7 +55,6 @@ object TestFixtureData {
 //        screens,
         movies,
         showings,
-        reservationInfos,
     )
 
     val cart: Cart = Cart(
