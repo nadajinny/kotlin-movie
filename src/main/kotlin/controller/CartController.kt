@@ -24,9 +24,7 @@ class CartController {
         showing: Showing,
         seats: List<Seat>,
     ) {
-        seats.forEach { seat ->
-            addReservationInfo(ReservationInfo(showing, seat))
-        }
+        cart = cart.addAll(showing, seats)
     }
 
     fun addReservationInfo(reservationInfo: ReservationInfo) {
@@ -34,16 +32,7 @@ class CartController {
     }
 
     fun getAllReservationInfo(): List<String> {
-        val carts = cart.reservationInfos.groupBy { it.showing }
-            .map { (key, group) ->
-                val showing = key
-                val seats = group.joinToString(", ") { "${it.seat.coordinate.row}${it.seat.coordinate.column}" }
-                "- [${showing.movie.title}] ${
-                    showing.startTime.toString().replace("T", " ").substring(0, 16)
-                } 좌석: $seats"
-            }
-
-        return carts
+        return cart.getAllReservationInfo()
     }
 
     fun showCart() {

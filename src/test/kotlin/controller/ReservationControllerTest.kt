@@ -12,7 +12,7 @@ class ReservationControllerTest {
 
     val controller = ReservationController(
         TestFixtureData.movieTheater,
-        TestFixtureData.reservationInfos,
+        TestFixtureData.cart,
     )
     val flowController = FlowController()
 
