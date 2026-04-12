@@ -22,7 +22,7 @@ object OutputView {
 
         ('A' until 'A' + maxRow).forEach { row ->
             val line = "$row" + (1..maxColumn).joinToString("") { col ->
-                val seat = screen.seats.find { it.coordinate.row == row && it.coordinate.column == col }
+                val seat = screen.findSeat(row, col)
                 " [ ${seat?.grade?.name ?: " "}]"
             }
             println(line)

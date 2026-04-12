@@ -41,10 +41,7 @@ class PaymentController(val cart: Cart, val user: User) {
 
     fun getPaymentMethod(price: Int): Int {
         val input = InputView.readPaymentMethod()
-
-        require(input.toInt() in 1..2) { "유효하지 않은 결제 수단입니다." }
-
-        val method = PaymentMethod.entries.first { (it.ordinal + 1) == input.toInt() }
+        val method = PaymentMethod.from(input)
 
         return Calculator.applyPaymentDiscount(price, method)
     }
