@@ -1,6 +1,7 @@
 package domain
 
 import domain.purchase.PaymentMethod
+import util.ErrorMessage
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -19,6 +20,6 @@ class PaymentMethodTest {
             PaymentMethod.from("3")
         }
 
-        assertEquals("유효하지 않은 결제 수단입니다.", exception.message)
+        assertEquals(ErrorMessage.INVALID_PAYMENT_METHOD, exception.message)
     }
 }

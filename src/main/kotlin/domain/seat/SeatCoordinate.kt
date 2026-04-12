@@ -1,8 +1,10 @@
 package domain.seat
 
+import util.ErrorMessage
+
 class SeatCoordinate(val row: Char, val column: Int) {
     init {
-        require(row.isUpperCase()) { "열은 한 글자 대문자 알파벳이여야 합니다." }
-        require(column > 0) { "행은 양수이여야 합니다." }
+        require(row.isUpperCase()) { ErrorMessage.ROW_MUST_BE_UPPERCASE }
+        require(column > 0) { ErrorMessage.COLUMN_MUST_BE_POSITIVE }
     }
 }

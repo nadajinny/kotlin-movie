@@ -1,5 +1,6 @@
 package domain
 
+import util.ErrorMessage
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -13,7 +14,7 @@ class ScreenTest {
             TestFixtureData.screens.first().findAvailableSeat(seat)
         }
 
-        assertEquals("입력된 값이 유효하지 않습니다.", exception.message)
+        assertEquals(ErrorMessage.INVALID_SEAT_INPUT, exception.message)
     }
 
     @Test
@@ -24,7 +25,7 @@ class ScreenTest {
             TestFixtureData.screens.first().findAvailableSeat(seat)
         }
 
-        assertEquals("해당 상영관에는 해당 좌석이 존재하지 않습니다.", exception.message)
+        assertEquals(ErrorMessage.SEAT_NOT_FOUND, exception.message)
     }
 
     @Test
@@ -35,6 +36,6 @@ class ScreenTest {
             TestFixtureData.screens.first().findAvailableSeat(seat)
         }
 
-        assertEquals("해당 좌석은 이미 예약되었습니다.", exception.message)
+        assertEquals(ErrorMessage.SEAT_ALREADY_RESERVED, exception.message)
     }
 }

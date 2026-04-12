@@ -5,6 +5,7 @@ import domain.cinema.MovieTheater
 import domain.cinema.Showing
 import domain.reservation.Cart
 import kotlinx.datetime.LocalDate
+import util.ErrorMessage
 
 class ShowingSelectionService(
     private val movieTheater: MovieTheater,
@@ -15,10 +16,10 @@ class ShowingSelectionService(
         input: String,
     ): LocalDate {
         val date = runCatching { LocalDate.parse(input) }.getOrNull()
-        require(date != null) { "올바른 날짜 형식이 아닙니다. (YYYY-MM-DD)" }
+        require(date != null) { ErrorMessage.INVALID_DATE_FORMAT }
 
         val showings = movieTheater.findShowings(movie, date)
-        require(showings.isNotEmpty()) { "해당 날짜에 선택한 영화의 상영이 없습니다." }
+        require(showings.isNotEmpty()) { ErrorMessage.SHOWING_NOT_FOUND_FOR_DATE }
 
         return date
     }
@@ -30,7 +31,7 @@ class ShowingSelectionService(
     ): Showing {
         val showings = movieTheater.findShowings(movie, date)
 
-        require(input.toIntOrNull() != null && input.toInt() <= showings.size) { "선택하신 상영 번호는 없는 상영 번호입니다." }
+        require(input.toIntOrNull() != null && input.toInt() <= showings.size) { ErrorMessage.INVALID_SHOWING_NUMBER }
 
         val showing = showings[input.toInt() - 1]
         cart.checkReservationHistory(showing)

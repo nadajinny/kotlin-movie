@@ -2,6 +2,7 @@ package domain.reservation
 
 import domain.cinema.Showing
 import domain.seat.Seat
+import util.ErrorMessage
 
 class Cart(val reservationInfos: List<ReservationInfo>) {
     fun addInfo(info: ReservationInfo): Cart {
@@ -24,7 +25,7 @@ class Cart(val reservationInfos: List<ReservationInfo>) {
             showing.startTime >= it.showing.startTime && showing.startTime <= it.showing.endTime
         }
 
-        require(history.isEmpty()) { "선택하신 상영 시간이 겹칩니다. 다른 시간을 선택해 주세요." }
+        require(history.isEmpty()) { ErrorMessage.OVERLAPPING_SHOWING }
     }
 
     fun getAllReservationInfo(): List<String> {

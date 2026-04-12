@@ -4,6 +4,7 @@ import domain.seat.Seat
 import domain.seat.SeatCoordinate
 import domain.seat.SeatGrade
 import domain.seat.SeatState
+import util.ErrorMessage
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
@@ -26,7 +27,7 @@ class SeatTest {
         }
 
         // then : 예외가 발생한다.
-        assertEquals("열은 한 글자 대문자 알파벳이여야 합니다.", exception.message)
+        assertEquals(ErrorMessage.ROW_MUST_BE_UPPERCASE, exception.message)
     }
 
     @Test
@@ -45,7 +46,7 @@ class SeatTest {
         }
 
         // then : 예외가 발생한다.
-        assertEquals("행은 양수이여야 합니다.", exception.message)
+        assertEquals(ErrorMessage.COLUMN_MUST_BE_POSITIVE, exception.message)
     }
 
     @Test
@@ -56,6 +57,6 @@ class SeatTest {
         }
 
         // then : 예외가 발생한다.
-        assertEquals("행은 양수이여야 합니다.", exception.message)
+        assertEquals(ErrorMessage.COLUMN_MUST_BE_POSITIVE, exception.message)
     }
 }

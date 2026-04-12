@@ -1,7 +1,7 @@
 package domain
 
-import domain.Id
 import domain.user.User
+import util.ErrorMessage
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
@@ -25,7 +25,7 @@ class UserTest {
         }
 
         // then : 예외가 발생한다.
-        assertEquals("ID는 양수이어야 합니다.", exception.message)
+        assertEquals(ErrorMessage.ID_MUST_BE_POSITIVE, exception.message)
     }
 
     @Test
@@ -51,6 +51,6 @@ class UserTest {
         }
 
         // then : 예외가 발생 한다.
-        assertEquals("차감액은 전체 포인트보다 작아야 합니다.", exception.message)
+        assertEquals(ErrorMessage.POINT_DEDUCTION_EXCEEDS_BALANCE, exception.message)
     }
 }

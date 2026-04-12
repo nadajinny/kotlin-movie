@@ -1,5 +1,7 @@
 package domain.purchase
 
+import util.ErrorMessage
+
 enum class PaymentMethod {
     CARD,
     CASH,
@@ -8,7 +10,7 @@ enum class PaymentMethod {
     companion object {
         fun from(input: String): PaymentMethod {
             val methodNumber = input.toIntOrNull()
-            require(methodNumber != null && methodNumber in 1..entries.size) { "유효하지 않은 결제 수단입니다." }
+            require(methodNumber != null && methodNumber in 1..entries.size) { ErrorMessage.INVALID_PAYMENT_METHOD }
 
             return entries[methodNumber - 1]
         }

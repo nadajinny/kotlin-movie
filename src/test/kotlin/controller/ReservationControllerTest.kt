@@ -3,6 +3,7 @@ package controller
 import domain.cinema.Movie
 import java.io.ByteArrayInputStream
 import kotlinx.datetime.LocalDate
+import util.ErrorMessage
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -28,7 +29,7 @@ class ReservationControllerTest {
         }
 
         // then : 예외가 발생한다.
-        assertEquals("입력값은 Y 혹은 N이어야 합니다.", exception.message)
+        assertEquals(ErrorMessage.INVALID_YES_OR_NO_INPUT, exception.message)
     }
 
     @Test
@@ -56,7 +57,7 @@ class ReservationControllerTest {
         }
 
         // then : 예외가 발생한다.
-        assertEquals("존재하지 않는 영화입니다.", exception.message)
+        assertEquals(ErrorMessage.MOVIE_NOT_FOUND, exception.message)
     }
 
     @Test
@@ -85,7 +86,7 @@ class ReservationControllerTest {
         }
 
         // then : 예외가 발생한다.
-        assertEquals("올바른 날짜 형식이 아닙니다. (YYYY-MM-DD)", exception.message)
+        assertEquals(ErrorMessage.INVALID_DATE_FORMAT, exception.message)
     }
 
     @Test
@@ -116,7 +117,7 @@ class ReservationControllerTest {
         }
 
         // then : 예외가 발생한다.
-        assertEquals("해당 날짜에 선택한 영화의 상영이 없습니다.", exception.message)
+        assertEquals(ErrorMessage.SHOWING_NOT_FOUND_FOR_DATE, exception.message)
     }
 
     @Test
@@ -148,7 +149,7 @@ class ReservationControllerTest {
         }
 
         // then : 예외가 발생한다.
-        assertEquals("선택하신 상영 번호는 없는 상영 번호입니다.", exception.message)
+        assertEquals(ErrorMessage.INVALID_SHOWING_NUMBER, exception.message)
     }
 
     @Test
@@ -165,7 +166,7 @@ class ReservationControllerTest {
         }
 
         // then : 예외가 발생한다.
-        assertEquals("선택하신 상영 시간이 겹칩니다. 다른 시간을 선택해 주세요.", exception.message)
+        assertEquals(ErrorMessage.OVERLAPPING_SHOWING, exception.message)
     }
 
     @Test
@@ -181,7 +182,7 @@ class ReservationControllerTest {
         }
 
         // then : 예외가 발생한다.
-        assertEquals("입력된 값이 유효하지 않습니다.", exception.message)
+        assertEquals(ErrorMessage.INVALID_SEAT_INPUT, exception.message)
     }
 
     @Test
@@ -197,7 +198,7 @@ class ReservationControllerTest {
         }
 
         // then : 예외가 발생한다.
-        assertEquals("해당 상영관에는 해당 좌석이 존재하지 않습니다.", exception.message)
+        assertEquals(ErrorMessage.SEAT_NOT_FOUND, exception.message)
     }
 
     @Test
@@ -227,7 +228,7 @@ class ReservationControllerTest {
         }
 
         // then : 예외가 발생한다.
-        assertEquals("해당 좌석은 이미 예약되었습니다.", exception.message)
+        assertEquals(ErrorMessage.SEAT_ALREADY_RESERVED, exception.message)
     }
 
     @Test

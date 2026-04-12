@@ -1,8 +1,10 @@
 package controller
 
+import util.ErrorMessage
+
 class FlowController {
     fun start(input: String): Boolean {
-        require(input == "Y" || input == "N") { "입력값은 Y 혹은 N이어야 합니다." }
+        require(input == "Y" || input == "N") { ErrorMessage.INVALID_YES_OR_NO_INPUT }
 
         when (input) {
             "Y" -> return true

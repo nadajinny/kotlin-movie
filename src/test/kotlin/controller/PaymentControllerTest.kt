@@ -1,6 +1,7 @@
 package controller
 
 import java.io.ByteArrayInputStream
+import util.ErrorMessage
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -35,7 +36,7 @@ class PaymentControllerTest {
         }
 
         // then : 예외가 발생한다.
-        assertEquals("차감액은 전체 포인트보다 작아야 합니다.", exception.message)
+        assertEquals(ErrorMessage.POINT_DEDUCTION_EXCEEDS_BALANCE, exception.message)
     }
 
     @Test
@@ -51,7 +52,7 @@ class PaymentControllerTest {
         }
 
         // then : 예외가 발생한다.
-        assertEquals("유효하지 않은 결제 수단입니다.", exception.message)
+        assertEquals(ErrorMessage.INVALID_PAYMENT_METHOD, exception.message)
     }
 
     @Test
