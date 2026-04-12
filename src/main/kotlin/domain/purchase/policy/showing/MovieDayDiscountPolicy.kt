@@ -1,4 +1,4 @@
-package domain.purchase
+package domain.purchase.policy.showing
 
 import kotlinx.datetime.LocalDateTime
 

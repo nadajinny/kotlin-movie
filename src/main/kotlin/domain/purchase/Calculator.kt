@@ -1,6 +1,12 @@
 package domain.purchase
 
 import domain.user.User
+import domain.purchase.policy.payment.CardPaymentDiscountPolicy
+import domain.purchase.policy.payment.CashPaymentDiscountPolicy
+import domain.purchase.policy.payment.PaymentDiscountPolicy
+import domain.purchase.policy.showing.MovieDayDiscountPolicy
+import domain.purchase.policy.showing.ShowTimeDiscountPolicy
+import domain.purchase.policy.showing.ShowingDiscountPolicy
 import kotlinx.datetime.LocalDateTime
 
 object Calculator {

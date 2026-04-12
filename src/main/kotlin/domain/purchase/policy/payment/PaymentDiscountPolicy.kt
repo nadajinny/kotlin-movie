@@ -1,4 +1,6 @@
-package domain.purchase
+package domain.purchase.policy.payment
+
+import domain.purchase.PaymentMethod
 
 interface PaymentDiscountPolicy {
     fun supports(method: PaymentMethod): Boolean

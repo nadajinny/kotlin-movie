@@ -1,4 +1,6 @@
-package domain.purchase
+package domain.purchase.policy.payment
+
+import domain.purchase.PaymentMethod
 
 class CardPaymentDiscountPolicy : PaymentDiscountPolicy {
     override fun supports(method: PaymentMethod): Boolean {

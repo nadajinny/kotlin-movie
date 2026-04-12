@@ -1,8 +1,8 @@
 package domain
 
-import domain.purchase.CardPaymentDiscountPolicy
-import domain.purchase.CashPaymentDiscountPolicy
 import domain.purchase.PaymentMethod
+import domain.purchase.policy.payment.CardPaymentDiscountPolicy
+import domain.purchase.policy.payment.CashPaymentDiscountPolicy
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
