@@ -5,6 +5,7 @@ import domain.purchase.Calculator
 import domain.purchase.PaymentMethod
 import domain.user.User
 import kotlinx.datetime.LocalDateTime
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -19,7 +20,7 @@ class CalculatorTest {
         val result = Calculator.applyMovieDayDiscount(price, date)
 
         // then : 14_400원이 반환된다.
-        assertEquals(14_400, result)
+        assertThat(result).isEqualTo(14_400)
     }
 
     @Test
@@ -58,7 +59,7 @@ class CalculatorTest {
         val result = Calculator.calculateByMovie(price, date)
 
         // then : 12_400원이 반환된다.
-        assertEquals(12_400, result)
+        assertThat(result).isEqualTo(12_400)
     }
 
     @Test
@@ -75,8 +76,8 @@ class CalculatorTest {
         )
 
         // then : user의 포인트는 0이 되고 15_000원이 반환된다.
-        assertEquals(14_000, result)
-        assertEquals(0, user.point.value)
+        assertThat(result).isEqualTo(14_000)
+        assertThat(user.point.value).isZero()
     }
 
     @Test

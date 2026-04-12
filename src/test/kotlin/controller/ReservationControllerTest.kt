@@ -3,6 +3,7 @@ package controller
 import domain.cinema.Movie
 import java.io.ByteArrayInputStream
 import kotlinx.datetime.LocalDate
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -40,7 +41,7 @@ class ReservationControllerTest {
         val result = flowController.start(input)
 
         // then : true가 반환된다.
-        assertEquals(true, result)
+        assertThat(result).isTrue()
     }
 
     @Test
@@ -98,7 +99,7 @@ class ReservationControllerTest {
         val result = controller.chooseDate(movie)
 
         // then : Date가 반환된다.
-        assertEquals(LocalDate(2026, 4, 10), result)
+        assertThat(result).isEqualTo(LocalDate(2026, 4, 10))
     }
 
     @Test
@@ -210,7 +211,7 @@ class ReservationControllerTest {
         val result = controller.chooseSeat(showing)
 
         // then : 좌석 리스트가 반환된다.
-        assertEquals(listOf(TestFixtureData.seats[2], TestFixtureData.seats[3]), result)
+        assertThat(result).containsExactly(TestFixtureData.seats[2], TestFixtureData.seats[3])
     }
 
     @Test
@@ -240,6 +241,6 @@ class ReservationControllerTest {
         val result = controller.chooseSeat(showing)
 
         // then : 좌석 리스트가 반환된다.
-        assertEquals(listOf(TestFixtureData.seats[2]), result)
+        assertThat(result).containsExactly(TestFixtureData.seats[2])
     }
 }

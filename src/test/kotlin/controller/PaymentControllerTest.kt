@@ -1,6 +1,7 @@
 package controller
 
 import java.io.ByteArrayInputStream
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -18,7 +19,7 @@ class PaymentControllerTest {
         val result = controller.discountPerSeat()
 
         // then : 할인된 금액이 반환된다.
-        assertEquals(27700, result)
+        assertThat(result).isEqualTo(27_700)
     }
 
     @Test
@@ -64,7 +65,7 @@ class PaymentControllerTest {
         val result = controller.getPaymentMethod(price)
 
         // then : 할인된 금액이 반환된다.
-        assertEquals(9_500, result)
+        assertThat(result).isEqualTo(9_500)
     }
 
     @Test
@@ -77,6 +78,6 @@ class PaymentControllerTest {
         val result = controller.run()
 
         // then : 할인된 총 금액이 반환된다.
-        assertEquals(24_415 to 2000, result)
+        assertThat(result).isEqualTo(24_415 to 2000)
     }
 }

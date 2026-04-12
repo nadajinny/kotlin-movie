@@ -1,6 +1,6 @@
 package controller
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class CartControllerTest {
@@ -21,7 +21,7 @@ class CartControllerTest {
         val result = controller.cart
 
         // then :
-        assertEquals(2, result.reservationInfos.size)
+        assertThat(result.reservationInfos).hasSize(2)
     }
 
     @Test
@@ -39,6 +39,6 @@ class CartControllerTest {
         val result = controller.getAllReservationInfo()
 
         // then : 전체 항목이 반환된다.
-        assertEquals(listOf("- [해리 포터] 2026-04-10 10:00 좌석: B1, B2"), result)
+        assertThat(result).containsExactly("- [해리 포터] 2026-04-10 10:00 좌석: B1, B2")
     }
 }
