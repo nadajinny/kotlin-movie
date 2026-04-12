@@ -4,6 +4,16 @@ import domain.user.User
 import kotlinx.datetime.LocalDateTime
 
 object Calculator {
+    private val movieDayDiscountPolicy = MovieDayDiscountPolicy()
+    private val showTimeDiscountPolicy = ShowTimeDiscountPolicy()
+    private val showingDiscountPolicies: List<ShowingDiscountPolicy> = listOf(
+        movieDayDiscountPolicy,
+        showTimeDiscountPolicy,
+    )
+    private val paymentDiscountPolicies: List<PaymentDiscountPolicy> = listOf(
+        CardPaymentDiscountPolicy(),
+        CashPaymentDiscountPolicy(),
+    )
 
     fun subtractUserPoint(
         price: Int,
@@ -18,30 +28,30 @@ object Calculator {
         price: Int,
         date: LocalDateTime,
     ): Int {
-        var discountedPrice = applyMovieDayDiscount(price, date)
-        discountedPrice = applyTimeDiscount(discountedPrice, date)
-
-        return discountedPrice
+        return showingDiscountPolicies.fold(price) { discountedPrice, policy ->
+            policy.apply(discountedPrice, date)
+        }
     }
 
     fun applyMovieDayDiscount(
         price: Int,
         date: LocalDateTime,
     ): Int {
-        return ((1 - DiscountPolicy.movieDayDiscount(date)) * price).toInt()
+        return movieDayDiscountPolicy.apply(price, date)
     }
 
     fun applyTimeDiscount(
         price: Int,
         date: LocalDateTime,
     ): Int {
-        return price - DiscountPolicy.showTimeDiscount(date)
+        return showTimeDiscountPolicy.apply(price, date)
     }
 
     fun applyPaymentDiscount(
         price: Int,
         method: PaymentMethod,
     ): Int {
-        return ((1 - DiscountPolicy.paymentDiscount(method)) * price).toInt()
+        val policy = paymentDiscountPolicies.first { it.supports(method) }
+        return policy.apply(price)
     }
 }
