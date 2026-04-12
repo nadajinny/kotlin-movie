@@ -38,4 +38,8 @@ class PaymentController(val cart: Cart, val user: User) {
         val input = InputView.readPaymentMethod()
         return paymentDiscountService.apply(price, input)
     }
+
+    fun confirmPayment(usedPoint: Int) {
+        user.discountPoint(usedPoint)
+    }
 }

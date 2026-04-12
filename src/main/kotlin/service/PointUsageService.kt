@@ -8,7 +8,7 @@ class PointUsageService(private val user: User) {
         input: String,
     ): Pair<Int, Int> {
         val usedPoint = input.toInt()
-        user.discountPoint(usedPoint)
+        user.point.discount(usedPoint)
 
         return totalPrice - usedPoint to usedPoint
     }

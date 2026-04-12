@@ -80,4 +80,33 @@ class PaymentControllerTest {
         // then : 할인된 총 금액이 반환된다.
         assertThat(result).isEqualTo(24_415 to 2000)
     }
+
+    @Test
+    fun `포인트 입력 단계에서는 실제 포인트가 차감되지 않는다`() {
+        val input = "500"
+        val price = 27_700
+        val user = TestFixtureData.users.first()
+        val controller = PaymentController(
+            cart = TestFixtureData.cart,
+            user = user,
+        )
+        System.setIn(ByteArrayInputStream(input.toByteArray()))
+
+        controller.getUserPoint(price)
+
+        assertThat(user.point.value).isEqualTo(2_000)
+    }
+
+    @Test
+    fun `결제 확정 시 포인트가 실제로 차감된다`() {
+        val user = TestFixtureData.users[1]
+        val controller = PaymentController(
+            cart = TestFixtureData.cart,
+            user = user,
+        )
+
+        controller.confirmPayment(500)
+
+        assertThat(user.point.value).isEqualTo(1_500)
+    }
 }
