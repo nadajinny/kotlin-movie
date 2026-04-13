@@ -15,8 +15,8 @@ data class Greeting(
 @RestController
 class GreetingController {
     @GetMapping("/greeting")
-    fun hello(): Greeting {
-        return Greeting(1L, "Ember")
+    fun hello(name: String): Greeting {
+        return Greeting(1L, name)
     }
 }
 
