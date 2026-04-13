@@ -1,18 +1,18 @@
 package controller
 
-import java.io.ByteArrayInputStream
-import util.ErrorMessage
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import util.ErrorMessage
+import java.io.ByteArrayInputStream
 
 class PaymentControllerTest {
-
-    val controller = PaymentController(
-        cart = TestFixtureData.cart,
-        user = TestFixtureData.users.first(),
-    )
+    val controller =
+        PaymentController(
+            cart = TestFixtureData.cart,
+            user = TestFixtureData.users.first(),
+        )
 
     @Test
     fun `좌석 별로 무비데이 할인(10%)과 시간 할인(2,000원)이 적용된다`() {
@@ -31,9 +31,10 @@ class PaymentControllerTest {
         System.setIn(ByteArrayInputStream(input.toByteArray()))
 
         // when : 포인트를 처리하면
-        val exception = assertThrows<IllegalArgumentException> {
-            controller.getUserPoint(price)
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                controller.getUserPoint(price)
+            }
 
         // then : 예외가 발생한다.
         assertEquals(ErrorMessage.POINT_DEDUCTION_EXCEEDS_BALANCE, exception.message)
@@ -47,9 +48,10 @@ class PaymentControllerTest {
         System.setIn(ByteArrayInputStream(input.toByteArray()))
 
         // when : 포인트를 처리하면
-        val exception = assertThrows<IllegalArgumentException> {
-            controller.getPaymentMethod(price)
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                controller.getPaymentMethod(price)
+            }
 
         // then : 예외가 발생한다.
         assertEquals(ErrorMessage.INVALID_PAYMENT_METHOD, exception.message)
@@ -87,10 +89,11 @@ class PaymentControllerTest {
         val input = "500"
         val price = 27_700
         val user = TestFixtureData.users.first()
-        val controller = PaymentController(
-            cart = TestFixtureData.cart,
-            user = user,
-        )
+        val controller =
+            PaymentController(
+                cart = TestFixtureData.cart,
+                user = user,
+            )
         System.setIn(ByteArrayInputStream(input.toByteArray()))
 
         controller.getUserPoint(price)
@@ -101,10 +104,11 @@ class PaymentControllerTest {
     @Test
     fun `결제 확정 시 포인트가 실제로 차감된다`() {
         val user = TestFixtureData.users[1]
-        val controller = PaymentController(
-            cart = TestFixtureData.cart,
-            user = user,
-        )
+        val controller =
+            PaymentController(
+                cart = TestFixtureData.cart,
+                user = user,
+            )
 
         controller.confirmPayment(500)
 

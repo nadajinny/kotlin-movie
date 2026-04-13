@@ -1,11 +1,11 @@
 package domain
 
 import domain.user.User
-import util.ErrorMessage
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import org.junit.jupiter.api.assertThrows
+import util.ErrorMessage
 
 class UserTest {
     @Test
@@ -20,9 +20,10 @@ class UserTest {
     @Test
     fun `ID가 음수일 때 예외가 발생한다`() {
         // given & when : User의 ID에 음수값을 넣는다.
-        val exception = assertThrows<IllegalArgumentException> {
-            User(Id(-1))
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                User(Id(-1))
+            }
 
         // then : 예외가 발생한다.
         assertEquals(ErrorMessage.ID_MUST_BE_POSITIVE, exception.message)
@@ -46,9 +47,10 @@ class UserTest {
         val result = User(Id(1))
 
         // when : discountPoint로 1500을 입력했을 때
-        val exception = assertThrows<IllegalArgumentException> {
-            result.discountPoint(2500)
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                result.discountPoint(2500)
+            }
 
         // then : 예외가 발생 한다.
         assertEquals(ErrorMessage.POINT_DEDUCTION_EXCEEDS_BALANCE, exception.message)

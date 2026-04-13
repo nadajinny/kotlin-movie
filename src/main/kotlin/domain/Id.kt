@@ -1,3 +1,5 @@
 package domain
 
-class Id(val value: Int)
+class Id(
+    val value: Int,
+)

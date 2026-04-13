@@ -8,18 +8,12 @@ class MovieTheater(
     val movies: List<Movie>,
     val showings: List<Showing>,
 ) {
-    fun findMovie(title: String): Movie? {
-        return movies.find { it.title == title }
-    }
+    fun findMovie(title: String): Movie? = movies.find { it.title == title }
 
-    fun findMovieById(id: Id): Movie? {
-        return movies.find { it.id.value == id.value }
-    }
+    fun findMovieById(id: Id): Movie? = movies.find { it.id.value == id.value }
 
     fun findShowings(
         movie: Movie,
         date: LocalDate,
-    ): List<Showing> {
-        return showings.filter { it.movie == movie && it.startTime.date == date }
-    }
+    ): List<Showing> = showings.filter { it.movie == movie && it.startTime.date == date }
 }

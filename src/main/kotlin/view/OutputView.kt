@@ -21,10 +21,12 @@ object OutputView {
         println(header)
 
         ('A' until 'A' + maxRow).forEach { row ->
-            val line = "$row" + (1..maxColumn).joinToString("") { col ->
-                val seat = screen.findSeat(row, col)
-                " [ ${seat?.grade?.name ?: " "}]"
-            }
+            val line =
+                "$row" +
+                    (1..maxColumn).joinToString("") { col ->
+                        val seat = screen.findSeat(row, col)
+                        " [ ${seat?.grade?.name ?: " "}]"
+                    }
             println(line)
         }
         println()
@@ -44,9 +46,7 @@ object OutputView {
         println()
     }
 
-    fun printByDecimalFormat(price: Int): String {
-        return String.format("%,d", price)
-    }
+    fun printByDecimalFormat(price: Int): String = String.format("%,d", price)
 
     fun printTotal(
         totalHistory: List<String>,

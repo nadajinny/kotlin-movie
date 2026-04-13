@@ -7,19 +7,16 @@ import org.springframework.web.bind.annotation.RestController
 
 data class Greeting(
     val id: Long,
-    val name: String
+    val name: String,
 ) {
-    fun sayHello() : String = "Hello, $name!"
+    fun sayHello(): String = "Hello, $name!"
 }
 
 @RestController
 class GreetingController {
     @GetMapping("/greeting")
-    fun hello(name: String): Greeting {
-        return Greeting(1L, name)
-    }
+    fun hello(name: String = "Default"): Greeting = Greeting(1L, name)
 }
-
 
 @SpringBootApplication
 class Application

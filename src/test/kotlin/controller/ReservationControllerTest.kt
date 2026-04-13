@@ -1,20 +1,20 @@
 package controller
 
 import domain.cinema.Movie
-import java.io.ByteArrayInputStream
 import kotlinx.datetime.LocalDate
-import util.ErrorMessage
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import util.ErrorMessage
+import java.io.ByteArrayInputStream
 
 class ReservationControllerTest {
-
-    val controller = ReservationController(
-        TestFixtureData.movieTheater,
-        TestFixtureData.cart,
-    )
+    val controller =
+        ReservationController(
+            TestFixtureData.movieTheater,
+            TestFixtureData.cart,
+        )
     val flowController = FlowController()
 
     @Test
@@ -24,9 +24,10 @@ class ReservationControllerTest {
         System.setIn(ByteArrayInputStream(input.toByteArray()))
 
         // when : 입력 여부를 처리하면
-        val exception = assertThrows<IllegalArgumentException> {
-            flowController.start(input)
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                flowController.start(input)
+            }
 
         // then : 예외가 발생한다.
         assertEquals(ErrorMessage.INVALID_YES_OR_NO_INPUT, exception.message)
@@ -52,9 +53,10 @@ class ReservationControllerTest {
         System.setIn(ByteArrayInputStream(input.toByteArray()))
 
         // when : 영화 제목을 처리하면
-        val exception = assertThrows<IllegalArgumentException> {
-            controller.chooseMovie()
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                controller.chooseMovie()
+            }
 
         // then : 예외가 발생한다.
         assertEquals(ErrorMessage.MOVIE_NOT_FOUND, exception.message)
@@ -81,9 +83,10 @@ class ReservationControllerTest {
         System.setIn(ByteArrayInputStream(input.toByteArray()))
 
         // when : 날짜를 처리하면
-        val exception = assertThrows<IllegalArgumentException> {
-            controller.chooseDate(movie)
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                controller.chooseDate(movie)
+            }
 
         // then : 예외가 발생한다.
         assertEquals(ErrorMessage.INVALID_DATE_FORMAT, exception.message)
@@ -112,9 +115,10 @@ class ReservationControllerTest {
         System.setIn(ByteArrayInputStream(input.toByteArray()))
 
         // when : 상영을 확인하면
-        val exception = assertThrows<IllegalArgumentException> {
-            controller.chooseDate(movie)
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                controller.chooseDate(movie)
+            }
 
         // then : 예외가 발생한다.
         assertEquals(ErrorMessage.SHOWING_NOT_FOUND_FOR_DATE, exception.message)
@@ -144,9 +148,10 @@ class ReservationControllerTest {
         val date = LocalDate(2026, 4, 10)
 
         // when : 상영을 확인한 뒤 상영 번호를 입력하면
-        val exception = assertThrows<IllegalArgumentException> {
-            controller.chooseShowingTime(movie, date)
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                controller.chooseShowingTime(movie, date)
+            }
 
         // then : 예외가 발생한다.
         assertEquals(ErrorMessage.INVALID_SHOWING_NUMBER, exception.message)
@@ -161,9 +166,10 @@ class ReservationControllerTest {
         val date = LocalDate(2026, 4, 10)
 
         // when : 상영을 확인한 뒤 상영 번호를 입력하면
-        val exception = assertThrows<IllegalArgumentException> {
-            controller.chooseShowingTime(movie, date)
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                controller.chooseShowingTime(movie, date)
+            }
 
         // then : 예외가 발생한다.
         assertEquals(ErrorMessage.OVERLAPPING_SHOWING, exception.message)
@@ -177,9 +183,10 @@ class ReservationControllerTest {
         val showing = TestFixtureData.showings.first()
 
         // when : 상영을 확인한 뒤 상영 번호를 입력하면
-        val exception = assertThrows<IllegalArgumentException> {
-            controller.chooseSeat(showing)
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                controller.chooseSeat(showing)
+            }
 
         // then : 예외가 발생한다.
         assertEquals(ErrorMessage.INVALID_SEAT_INPUT, exception.message)
@@ -193,9 +200,10 @@ class ReservationControllerTest {
         val showing = TestFixtureData.showings.first()
 
         // when : 좌석을 확인한 뒤 좌석 번호를 입력하면
-        val exception = assertThrows<IllegalArgumentException> {
-            controller.chooseSeat(showing)
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                controller.chooseSeat(showing)
+            }
 
         // then : 예외가 발생한다.
         assertEquals(ErrorMessage.SEAT_NOT_FOUND, exception.message)
@@ -223,9 +231,10 @@ class ReservationControllerTest {
         val showing = TestFixtureData.showings.first()
 
         // when : 좌석을 확인한 뒤 좌석 번호를 입력하면
-        val exception = assertThrows<IllegalArgumentException> {
-            controller.chooseSeat(showing)
-        }
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                controller.chooseSeat(showing)
+            }
 
         // then : 예외가 발생한다.
         assertEquals(ErrorMessage.SEAT_ALREADY_RESERVED, exception.message)
