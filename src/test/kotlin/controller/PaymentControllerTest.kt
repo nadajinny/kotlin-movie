@@ -114,4 +114,20 @@ class PaymentControllerTest {
 
         assertThat(user.point.value).isEqualTo(1_500)
     }
+
+    @Test
+    fun `결제 진행 중 잘못된 입력이 들어오면 올바른 입력이 들어올 때까지 다시 입력받는다`() {
+        val user = TestFixtureData.users[2]
+        val controller =
+            PaymentController(
+                cart = TestFixtureData.cart,
+                user = user,
+            )
+        val input = "abc\n3000\n500\n3\n1"
+        System.setIn(ByteArrayInputStream(input.toByteArray()))
+
+        val result = controller.run()
+
+        assertThat(result).isEqualTo(25_840 to 500)
+    }
 }

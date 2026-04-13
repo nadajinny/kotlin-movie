@@ -13,6 +13,7 @@ import domain.seat.SeatGrade
 import domain.seat.SeatState
 import domain.user.User
 import kotlinx.datetime.LocalDateTime
+import util.retryOnInvalidInput
 import view.InputView
 import view.OutputView
 
@@ -75,8 +76,14 @@ fun main() {
     val cartController = CartController()
     val flowController = FlowController()
 
-    var input = InputView.startTicketing()
-    while (flowController.start(input)) {
+    val shouldStart =
+        retryOnInvalidInput(OutputView::printError) {
+            flowController.start(InputView.startTicketing())
+        }
+    if (!shouldStart) return
+
+    var shouldContinue = true
+    while (shouldContinue) {
         val reservationController =
             ReservationController(
                 movieTheater = movieTheater,
@@ -89,7 +96,10 @@ fun main() {
             seats = pair.second,
         )
 
-        input = InputView.continueTicketing()
+        shouldContinue =
+            retryOnInvalidInput(OutputView::printError) {
+                flowController.start(InputView.continueTicketing())
+            }
     }
 
     val paymentController =
@@ -102,8 +112,11 @@ fun main() {
         )
 
     val total = paymentController.run()
-    val confirm = InputView.readPurchaseConfirm()
-    if (confirm != "Y") return
+    val confirm =
+        retryOnInvalidInput(OutputView::printError) {
+            flowController.start(InputView.readPurchaseConfirm())
+        }
+    if (!confirm) return
     paymentController.confirmPayment(total.second)
 
     OutputView.printTotal(cartController.cart.getAllReservationInfo(), total.first, total.second)

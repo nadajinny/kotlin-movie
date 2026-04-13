@@ -9,6 +9,7 @@ import kotlinx.datetime.LocalDate
 import service.MovieSelectionService
 import service.SeatSelectionService
 import service.ShowingSelectionService
+import util.retryOnInvalidInput
 import view.InputView
 import view.OutputView
 
@@ -21,10 +22,10 @@ class ReservationController(
     private val seatSelectionService = SeatSelectionService()
 
     fun run(): Pair<Showing, List<Seat>> {
-        val movie = chooseMovie()
-        val date = chooseDate(movie)
-        val showing = chooseShowingTime(movie, date)
-        val seats = chooseSeat(showing)
+        val movie = retryOnInvalidInput(OutputView::printError) { chooseMovie() }
+        val date = retryOnInvalidInput(OutputView::printError) { chooseDate(movie) }
+        val showing = retryOnInvalidInput(OutputView::printError) { chooseShowingTime(movie, date) }
+        val seats = retryOnInvalidInput(OutputView::printError) { chooseSeat(showing) }
 
         return showing to seats
     }

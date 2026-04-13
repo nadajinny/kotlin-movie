@@ -4,6 +4,11 @@ import domain.cinema.Screen
 import domain.cinema.Showing
 
 object OutputView {
+    fun printError(message: String) {
+        println("[ERROR] $message")
+        println()
+    }
+
     fun printShowing(showings: List<Showing>) {
         println("해당 날짜의 상영 목록")
 

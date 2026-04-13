@@ -5,6 +5,7 @@ import domain.user.User
 import service.PaymentDiscountService
 import service.PointUsageService
 import service.PriceCalculationService
+import util.retryOnInvalidInput
 import view.InputView
 import view.OutputView
 
@@ -18,10 +19,10 @@ class PaymentController(
 
     fun run(): Pair<Int, Int> {
         var price = discountPerSeat()
-        val pair = getUserPoint(price)
+        val pair = retryOnInvalidInput(OutputView::printError) { getUserPoint(price) }
         price = pair.first
 
-        price = getPaymentMethod(price)
+        price = retryOnInvalidInput(OutputView::printError) { getPaymentMethod(price) }
 
         OutputView.printTotalPrice(price)
 

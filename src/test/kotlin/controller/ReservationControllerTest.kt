@@ -1,6 +1,7 @@
 package controller
 
 import domain.cinema.Movie
+import domain.reservation.Cart
 import kotlinx.datetime.LocalDate
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -252,5 +253,21 @@ class ReservationControllerTest {
 
         // then : 좌석 리스트가 반환된다.
         assertThat(result).containsExactly(TestFixtureData.seats[2])
+    }
+
+    @Test
+    fun `예매 진행 중 잘못된 입력이 들어오면 올바른 입력이 들어올 때까지 다시 입력받는다`() {
+        val controller =
+            ReservationController(
+                TestFixtureData.movieTheater,
+                Cart(listOf()),
+            )
+        val input = "X\n해리 포터\n2026_04_10\n2026-04-10\n9\n1\nF//10\nB1"
+        System.setIn(ByteArrayInputStream(input.toByteArray()))
+
+        val result = controller.run()
+
+        assertThat(result.first).isEqualTo(TestFixtureData.showings.first())
+        assertThat(result.second).containsExactly(TestFixtureData.seats[2])
     }
 }
