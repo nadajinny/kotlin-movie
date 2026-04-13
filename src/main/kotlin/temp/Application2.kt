@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class MovieController {
     @GetMapping("/api/movies")
-    fun showMovie(title: String = "Default") : Movie = Movie(id = Id(1), title = title, runningTime = 1)
+    fun showMovies() : List<Movie> = SampleData.movies
 }
 
 
