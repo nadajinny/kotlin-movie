@@ -40,4 +40,12 @@ class ApplicationTest(
             .expectBody()
             .jsonPath("$.name").isEqualTo("Ember")
     }
+
+    @Test
+    fun test3() {
+        client.get().uri("/greeting?name=Ember")
+            .exchange()
+            .expectBody()
+            .json("{\"id\":1,\"name\":\"Ember\"}")
+    }
 }
