@@ -5,13 +5,14 @@ import domain.seat.Seat
 import domain.seat.SeatState
 import util.ErrorMessage
 
-class Screen(val seats: List<Seat>, val id: Id) {
+class Screen(
+    val seats: List<Seat>,
+    val id: Id,
+) {
     fun findSeat(
         row: Char,
         column: Int,
-    ): Seat? {
-        return seats.find { it.coordinate.row == row && it.coordinate.column == column }
-    }
+    ): Seat? = seats.find { it.coordinate.row == row && it.coordinate.column == column }
 
     fun findAvailableSeat(input: String): Seat {
         require(Regex("^[A-Z][0-9]+$").matches(input)) { ErrorMessage.INVALID_SEAT_INPUT }

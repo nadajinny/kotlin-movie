@@ -7,9 +7,10 @@ import domain.seat.Seat
 import view.OutputView
 
 class CartController {
-    var cart: Cart = Cart(
-        reservationInfos = listOf(),
-    )
+    var cart: Cart =
+        Cart(
+            reservationInfos = listOf(),
+        )
 
     fun run(
         showing: Showing,
@@ -31,9 +32,7 @@ class CartController {
         cart = cart.addInfo(reservationInfo)
     }
 
-    fun getAllReservationInfo(): List<String> {
-        return cart.getAllReservationInfo()
-    }
+    fun getAllReservationInfo(): List<String> = cart.getAllReservationInfo()
 
     fun showCart() {
         OutputView.printCart(getAllReservationInfo())

@@ -69,11 +69,12 @@ class CalculatorTest {
         val price = 16_000
 
         // when : 사용 포인트가 2000이면
-        val result = Calculator.subtractUserPoint(
-            price = price,
-            user = user,
-            subtractPoint = 2000,
-        )
+        val result =
+            Calculator.subtractUserPoint(
+                price = price,
+                user = user,
+                subtractPoint = 2000,
+            )
 
         // then : user의 포인트는 0이 되고 15_000원이 반환된다.
         assertThat(result).isEqualTo(14_000)

@@ -8,7 +8,10 @@ import service.PriceCalculationService
 import view.InputView
 import view.OutputView
 
-class PaymentController(val cart: Cart, val user: User) {
+class PaymentController(
+    val cart: Cart,
+    val user: User,
+) {
     private val priceCalculationService = PriceCalculationService(cart)
     private val pointUsageService = PointUsageService(user)
     private val paymentDiscountService = PaymentDiscountService()
@@ -30,9 +33,7 @@ class PaymentController(val cart: Cart, val user: User) {
         return pointUsageService.apply(totalPrice, input)
     }
 
-    fun discountPerSeat(): Int {
-        return priceCalculationService.calculateDiscountedPrice()
-    }
+    fun discountPerSeat(): Int = priceCalculationService.calculateDiscountedPrice()
 
     fun getPaymentMethod(price: Int): Int {
         val input = InputView.readPaymentMethod()

@@ -17,65 +17,71 @@ import view.InputView
 import view.OutputView
 
 fun main() {
-    val movies = listOf(
-        Movie("F1 더 무비", Id(1), 130),
-        Movie("토이 스토리", Id(2), 100),
-        Movie("아이언맨", Id(3), 126),
-    )
+    val movies =
+        listOf(
+            Movie("F1 더 무비", Id(1), 130),
+            Movie("토이 스토리", Id(2), 100),
+            Movie("아이언맨", Id(3), 126),
+        )
 
-    val seats = listOf(
-        Seat(SeatCoordinate('A', 1), SeatGrade.B, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('A', 2), SeatGrade.B, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('A', 3), SeatGrade.B, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('A', 4), SeatGrade.B, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('B', 1), SeatGrade.B, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('B', 2), SeatGrade.B, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('B', 3), SeatGrade.B, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('B', 4), SeatGrade.B, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('C', 1), SeatGrade.S, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('C', 2), SeatGrade.S, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('C', 3), SeatGrade.S, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('C', 4), SeatGrade.S, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('D', 1), SeatGrade.S, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('D', 2), SeatGrade.S, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('D', 3), SeatGrade.S, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('D', 4), SeatGrade.S, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('E', 1), SeatGrade.A, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('E', 2), SeatGrade.A, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('E', 3), SeatGrade.A, SeatState.AVAILABLE),
-        Seat(SeatCoordinate('E', 4), SeatGrade.A, SeatState.AVAILABLE),
-    )
+    val seats =
+        listOf(
+            Seat(SeatCoordinate('A', 1), SeatGrade.B, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('A', 2), SeatGrade.B, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('A', 3), SeatGrade.B, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('A', 4), SeatGrade.B, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('B', 1), SeatGrade.B, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('B', 2), SeatGrade.B, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('B', 3), SeatGrade.B, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('B', 4), SeatGrade.B, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('C', 1), SeatGrade.S, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('C', 2), SeatGrade.S, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('C', 3), SeatGrade.S, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('C', 4), SeatGrade.S, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('D', 1), SeatGrade.S, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('D', 2), SeatGrade.S, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('D', 3), SeatGrade.S, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('D', 4), SeatGrade.S, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('E', 1), SeatGrade.A, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('E', 2), SeatGrade.A, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('E', 3), SeatGrade.A, SeatState.AVAILABLE),
+            Seat(SeatCoordinate('E', 4), SeatGrade.A, SeatState.AVAILABLE),
+        )
 
-    val screens = listOf(
-        Screen(seats, Id(1)),
-        Screen(seats, Id(2)),
-        Screen(seats, Id(3)),
-    )
+    val screens =
+        listOf(
+            Screen(seats, Id(1)),
+            Screen(seats, Id(2)),
+            Screen(seats, Id(3)),
+        )
 
-    val showings = listOf(
-        Showing(LocalDateTime(2025, 9, 20, 10, 20), screens[0], movies[0]),
-        Showing(LocalDateTime(2025, 9, 20, 13, 0), screens[0], movies[0]),
-        Showing(LocalDateTime(2025, 9, 20, 15, 40), screens[0], movies[0]),
-        Showing(LocalDateTime(2025, 9, 20, 20, 10), screens[0], movies[0]),
-        Showing(LocalDateTime(2025, 9, 20, 13, 30), screens[1], movies[1]),
-        Showing(LocalDateTime(2025, 9, 20, 16, 0), screens[1], movies[1]),
-        Showing(LocalDateTime(2025, 9, 20, 9, 50), screens[2], movies[2]),
-    )
+    val showings =
+        listOf(
+            Showing(LocalDateTime(2025, 9, 20, 10, 20), screens[0], movies[0]),
+            Showing(LocalDateTime(2025, 9, 20, 13, 0), screens[0], movies[0]),
+            Showing(LocalDateTime(2025, 9, 20, 15, 40), screens[0], movies[0]),
+            Showing(LocalDateTime(2025, 9, 20, 20, 10), screens[0], movies[0]),
+            Showing(LocalDateTime(2025, 9, 20, 13, 30), screens[1], movies[1]),
+            Showing(LocalDateTime(2025, 9, 20, 16, 0), screens[1], movies[1]),
+            Showing(LocalDateTime(2025, 9, 20, 9, 50), screens[2], movies[2]),
+        )
 
-    val movieTheater = MovieTheater(
-        movies,
-        showings,
-    )
+    val movieTheater =
+        MovieTheater(
+            movies,
+            showings,
+        )
 
     val cartController = CartController()
     val flowController = FlowController()
 
     var input = InputView.startTicketing()
     while (flowController.start(input)) {
-        val reservationController = ReservationController(
-            movieTheater = movieTheater,
-            cart = cartController.cart,
-        )
+        val reservationController =
+            ReservationController(
+                movieTheater = movieTheater,
+                cart = cartController.cart,
+            )
         val pair = reservationController.run()
 
         cartController.run(
@@ -86,12 +92,14 @@ fun main() {
         input = InputView.continueTicketing()
     }
 
-    val paymentController = PaymentController(
-        cart = cartController.cart,
-        user = User(
-            Id(1),
-        ),
-    )
+    val paymentController =
+        PaymentController(
+            cart = cartController.cart,
+            user =
+                User(
+                    Id(1),
+                ),
+        )
 
     val total = paymentController.run()
     val confirm = InputView.readPurchaseConfirm()
