@@ -2,6 +2,7 @@ package controller
 
 import domain.reservation.Cart
 import domain.user.User
+import domain.purchase.PaymentMethod
 import service.PaymentDiscountService
 import service.PointUsageService
 import service.PriceCalculationService
@@ -41,8 +42,8 @@ class PaymentController(
     fun discountPerSeat(cart: Cart): Int = priceCalculationService.calculateDiscountedPrice(cart)
 
     fun getPaymentMethod(price: Int): Int {
-        val input = InputView.readPaymentMethod()
-        return paymentDiscountService.apply(price, input)
+        val method: PaymentMethod = InputView.readPaymentMethod()
+        return paymentDiscountService.apply(price, method)
     }
 
     fun confirmPayment(

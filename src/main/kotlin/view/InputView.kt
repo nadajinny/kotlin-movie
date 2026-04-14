@@ -1,6 +1,7 @@
 package view
 
 import domain.seat.SeatCoordinate
+import domain.purchase.PaymentMethod
 import util.ErrorMessage
 
 object InputView {
@@ -58,7 +59,7 @@ object InputView {
         return input
     }
 
-    fun readPaymentMethod(): String {
+    fun readPaymentMethod(): PaymentMethod {
         println(
             """
             결제 수단을 선택하세요:
@@ -67,7 +68,7 @@ object InputView {
             """.trimIndent(),
         )
         val input = readLine()
-        return input
+        return parsePaymentMethod(input)
     }
 
     fun parseSeatCoordinates(input: String): List<SeatCoordinate> {
@@ -80,5 +81,12 @@ object InputView {
                 column = it.substring(1).toInt(),
             )
         }
+    }
+
+    fun parsePaymentMethod(input: String): PaymentMethod {
+        val methodNumber = input.toIntOrNull()
+        require(methodNumber != null && methodNumber in 1..PaymentMethod.entries.size) { ErrorMessage.INVALID_PAYMENT_METHOD }
+
+        return PaymentMethod.entries[methodNumber - 1]
     }
 }

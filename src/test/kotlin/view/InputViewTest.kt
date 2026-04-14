@@ -1,5 +1,6 @@
 package view
 
+import domain.purchase.PaymentMethod
 import domain.seat.SeatCoordinate
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -27,5 +28,22 @@ class InputViewTest {
         assertThat(result)
             .usingRecursiveComparison()
             .isEqualTo(listOf(SeatCoordinate('A', 1), SeatCoordinate('B', 2)))
+    }
+
+    @Test
+    fun `유효한 결제 수단 번호가 들어오면 해당 결제 수단을 반환한다`() {
+        val result = InputView.parsePaymentMethod("1")
+
+        assertEquals(PaymentMethod.CARD, result)
+    }
+
+    @Test
+    fun `유효하지 않은 결제 수단 번호가 들어오면 예외가 발생한다`() {
+        val exception =
+            assertThrows<IllegalArgumentException> {
+                InputView.parsePaymentMethod("3")
+            }
+
+        assertEquals(ErrorMessage.INVALID_PAYMENT_METHOD, exception.message)
     }
 }
