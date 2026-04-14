@@ -1,6 +1,7 @@
 package controller
 
 import domain.reservation.Cart
+import org.assertj.core.api.Assertions.tuple
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -44,6 +45,11 @@ class CartControllerTest {
         val result = controller.getAllReservationInfo(updatedCart)
 
         // then : 전체 항목이 반환된다.
-        assertThat(result).containsExactly("- [해리 포터] 2026-04-10 10:00 좌석: B1, B2")
+        assertThat(result)
+            .extracting("screening", "seat")
+            .containsExactly(
+                tuple(TestFixtureData.screenings.first(), TestFixtureData.seats[2]),
+                tuple(TestFixtureData.screenings.first(), TestFixtureData.seats[3]),
+            )
     }
 }

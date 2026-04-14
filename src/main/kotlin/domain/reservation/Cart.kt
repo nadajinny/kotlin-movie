@@ -28,12 +28,4 @@ class Cart(
 
         require(history.isEmpty()) { ErrorMessage.OVERLAPPING_SCREENING }
     }
-
-    fun getAllReservationInfo(): List<String> =
-        reservationInfos
-            .groupBy { it.screening }
-            .map { (screening, group) ->
-                val seats = group.joinToString(", ") { "${it.seat.coordinate.row}${it.seat.coordinate.column}" }
-                "- [${screening.movie.title}] ${screening.startTime.toString().replace("T", " ").substring(0, 16)} 좌석: $seats"
-            }
 }

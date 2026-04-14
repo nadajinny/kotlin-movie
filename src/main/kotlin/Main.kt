@@ -122,5 +122,5 @@ fun main() {
     if (!confirm) return
     paymentController.confirmPayment(user, total.second)
 
-    OutputView.printTotal(cart.getAllReservationInfo(), total.first, total.second)
+    OutputView.printTotal(cart.reservationInfos, total.first, total.second)
 }

@@ -2,6 +2,7 @@ package view
 
 import domain.cinema.Screen
 import domain.cinema.Screening
+import domain.reservation.ReservationInfo
 
 object OutputView {
     fun printError(message: String) {
@@ -37,9 +38,9 @@ object OutputView {
         println()
     }
 
-    fun printCart(cart: List<String>) {
+    fun printCart(cart: List<ReservationInfo>) {
         println("장바구니")
-        cart.forEach {
+        formatReservationInfos(cart).forEach {
             println(it)
         }
         println()
@@ -54,7 +55,7 @@ object OutputView {
     fun printByDecimalFormat(price: Int): String = String.format("%,d", price)
 
     fun printTotal(
-        totalHistory: List<String>,
+        totalHistory: List<ReservationInfo>,
         totalPrice: Int,
         usedPoint: Int,
     ) {
@@ -67,4 +68,12 @@ object OutputView {
         println()
         println("감사합니다.")
     }
+
+    fun formatReservationInfos(reservationInfos: List<ReservationInfo>): List<String> =
+        reservationInfos
+            .groupBy { it.screening }
+            .map { (screening, group) ->
+                val seats = group.joinToString(", ") { "${it.seat.coordinate.row}${it.seat.coordinate.column}" }
+                "- [${screening.movie.title}] ${screening.startTime.toString().replace("T", " ").substring(0, 16)} 좌석: $seats"
+            }
 }

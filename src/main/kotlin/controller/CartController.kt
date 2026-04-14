@@ -28,7 +28,7 @@ class CartController {
         reservationInfo: ReservationInfo,
     ): Cart = cart.addInfo(reservationInfo)
 
-    fun getAllReservationInfo(cart: Cart): List<String> = cart.getAllReservationInfo()
+    fun getAllReservationInfo(cart: Cart): List<ReservationInfo> = cart.reservationInfos
 
     fun showCart(cart: Cart) {
         OutputView.printCart(getAllReservationInfo(cart))
