@@ -7,34 +7,30 @@ import domain.seat.Seat
 import view.OutputView
 
 class CartController {
-    var cart: Cart =
-        Cart(
-            reservationInfos = listOf(),
-        )
-
     fun run(
+        cart: Cart,
         screening: Screening,
         seats: List<Seat>,
     ): Cart {
-        addAllReservationInfo(screening, seats)
-        showCart()
-        return cart
+        val updatedCart = addAllReservationInfo(cart, screening, seats)
+        showCart(updatedCart)
+        return updatedCart
     }
 
     fun addAllReservationInfo(
+        cart: Cart,
         screening: Screening,
         seats: List<Seat>,
-    ) {
-        cart = cart.addAll(screening, seats)
-    }
+    ): Cart = cart.addAll(screening, seats)
 
-    fun addReservationInfo(reservationInfo: ReservationInfo) {
-        cart = cart.addInfo(reservationInfo)
-    }
+    fun addReservationInfo(
+        cart: Cart,
+        reservationInfo: ReservationInfo,
+    ): Cart = cart.addInfo(reservationInfo)
 
-    fun getAllReservationInfo(): List<String> = cart.getAllReservationInfo()
+    fun getAllReservationInfo(cart: Cart): List<String> = cart.getAllReservationInfo()
 
-    fun showCart() {
-        OutputView.printCart(getAllReservationInfo())
+    fun showCart(cart: Cart) {
+        OutputView.printCart(getAllReservationInfo(cart))
     }
 }

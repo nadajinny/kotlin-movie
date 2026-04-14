@@ -15,16 +15,15 @@ import view.OutputView
 
 class ReservationController(
     val movieTheater: MovieTheater,
-    val cart: Cart,
 ) {
     private val movieSelectionService = MovieSelectionService(movieTheater)
-    private val screeningSelectionService = ScreeningSelectionService(movieTheater, cart)
+    private val screeningSelectionService = ScreeningSelectionService(movieTheater)
     private val seatSelectionService = SeatSelectionService()
 
-    fun run(): Pair<Screening, List<Seat>> {
+    fun run(cart: Cart): Pair<Screening, List<Seat>> {
         val movie = retryOnInvalidInput(OutputView::printError) { chooseMovie() }
         val date = retryOnInvalidInput(OutputView::printError) { chooseDate(movie) }
-        val screening = retryOnInvalidInput(OutputView::printError) { chooseScreening(movie, date) }
+        val screening = retryOnInvalidInput(OutputView::printError) { chooseScreening(cart, movie, date) }
         val seats = retryOnInvalidInput(OutputView::printError) { chooseSeat(screening) }
 
         return screening to seats
@@ -41,6 +40,7 @@ class ReservationController(
     }
 
     fun chooseScreening(
+        cart: Cart,
         movie: Movie,
         date: LocalDate,
     ): Screening {
@@ -49,7 +49,7 @@ class ReservationController(
         OutputView.printScreenings(screenings)
         val input = InputView.readScreeningNumber()
 
-        return screeningSelectionService.selectScreening(movie, date, input)
+        return screeningSelectionService.selectScreening(cart, movie, date, input)
     }
 
     fun chooseSeat(screening: Screening): List<Seat> {

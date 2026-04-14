@@ -9,7 +9,6 @@ import util.ErrorMessage
 
 class ScreeningSelectionService(
     private val movieTheater: MovieTheater,
-    private val cart: Cart,
 ) {
     fun validateDate(
         movie: Movie,
@@ -25,6 +24,7 @@ class ScreeningSelectionService(
     }
 
     fun selectScreening(
+        cart: Cart,
         movie: Movie,
         date: LocalDate,
         input: String,

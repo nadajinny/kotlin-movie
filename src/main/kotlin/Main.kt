@@ -7,6 +7,7 @@ import domain.cinema.Movie
 import domain.cinema.MovieTheater
 import domain.cinema.Screen
 import domain.cinema.Screening
+import domain.reservation.Cart
 import domain.seat.Seat
 import domain.seat.SeatCoordinate
 import domain.seat.SeatGrade
@@ -73,8 +74,21 @@ fun main() {
             screenings,
         )
 
+    var cart =
+        Cart(
+            reservationInfos = listOf(),
+        )
+    val user =
+        User(
+            Id(1),
+        )
     val cartController = CartController()
     val flowController = FlowController()
+    val reservationController =
+        ReservationController(
+            movieTheater = movieTheater,
+        )
+    val paymentController = PaymentController()
 
     val shouldStart =
         retryOnInvalidInput(OutputView::printError) {
@@ -84,17 +98,14 @@ fun main() {
 
     var shouldContinue = true
     while (shouldContinue) {
-        val reservationController =
-            ReservationController(
-                movieTheater = movieTheater,
-                cart = cartController.cart,
-            )
-        val pair = reservationController.run()
+        val pair = reservationController.run(cart)
 
-        cartController.run(
-            screening = pair.first,
-            seats = pair.second,
-        )
+        cart =
+            cartController.run(
+                cart = cart,
+                screening = pair.first,
+                seats = pair.second,
+            )
 
         shouldContinue =
             retryOnInvalidInput(OutputView::printError) {
@@ -102,22 +113,13 @@ fun main() {
             }
     }
 
-    val paymentController =
-        PaymentController(
-            cart = cartController.cart,
-            user =
-                User(
-                    Id(1),
-                ),
-        )
-
-    val total = paymentController.run()
+    val total = paymentController.run(cart, user)
     val confirm =
         retryOnInvalidInput(OutputView::printError) {
             flowController.start(InputView.readPurchaseConfirm())
         }
     if (!confirm) return
-    paymentController.confirmPayment(total.second)
+    paymentController.confirmPayment(user, total.second)
 
-    OutputView.printTotal(cartController.cart.getAllReservationInfo(), total.first, total.second)
+    OutputView.printTotal(cart.getAllReservationInfo(), total.first, total.second)
 }

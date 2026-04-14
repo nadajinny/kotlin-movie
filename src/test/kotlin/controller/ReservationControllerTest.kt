@@ -14,7 +14,6 @@ class ReservationControllerTest {
     val controller =
         ReservationController(
             TestFixtureData.movieTheater,
-            TestFixtureData.cart,
         )
     val flowController = FlowController()
 
@@ -134,7 +133,7 @@ class ReservationControllerTest {
         // when : 상영을 처리하고 1번을 입력하면
         val input = "1"
         System.setIn(ByteArrayInputStream(input.toByteArray()))
-        val result = controller.chooseScreening(movie, date)
+        val result = controller.chooseScreening(Cart(listOf()), movie, date)
 
         // then : 특정 상영이 반환된다.
         assertEquals(TestFixtureData.movieTheater.screenings[2], result)
@@ -151,7 +150,7 @@ class ReservationControllerTest {
         // when : 상영을 확인한 뒤 상영 번호를 입력하면
         val exception =
             assertThrows<IllegalArgumentException> {
-                controller.chooseScreening(movie, date)
+                controller.chooseScreening(Cart(listOf()), movie, date)
             }
 
         // then : 예외가 발생한다.
@@ -169,7 +168,7 @@ class ReservationControllerTest {
         // when : 상영을 확인한 뒤 상영 번호를 입력하면
         val exception =
             assertThrows<IllegalArgumentException> {
-                controller.chooseScreening(movie, date)
+                controller.chooseScreening(TestFixtureData.cart, movie, date)
             }
 
         // then : 예외가 발생한다.
@@ -260,12 +259,11 @@ class ReservationControllerTest {
         val controller =
             ReservationController(
                 TestFixtureData.movieTheater,
-                Cart(listOf()),
             )
         val input = "X\n해리 포터\n2026_04_10\n2026-04-10\n9\n1\nF//10\nB1"
         System.setIn(ByteArrayInputStream(input.toByteArray()))
 
-        val result = controller.run()
+        val result = controller.run(Cart(listOf()))
 
         assertThat(result.first).isEqualTo(TestFixtureData.screenings.first())
         assertThat(result.second).containsExactly(TestFixtureData.seats[2])

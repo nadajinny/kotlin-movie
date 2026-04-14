@@ -3,10 +3,9 @@ package service
 import domain.user.User
 import util.ErrorMessage
 
-class PointUsageService(
-    private val user: User,
-) {
+class PointUsageService {
     fun apply(
+        user: User,
         totalPrice: Int,
         input: String,
     ): Pair<Int, Int> {

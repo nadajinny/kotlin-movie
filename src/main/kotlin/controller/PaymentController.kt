@@ -10,16 +10,17 @@ import view.InputView
 import view.OutputView
 
 class PaymentController(
-    val cart: Cart,
-    val user: User,
 ) {
-    private val priceCalculationService = PriceCalculationService(cart)
-    private val pointUsageService = PointUsageService(user)
+    private val priceCalculationService = PriceCalculationService()
+    private val pointUsageService = PointUsageService()
     private val paymentDiscountService = PaymentDiscountService()
 
-    fun run(): Pair<Int, Int> {
-        var price = discountPerSeat()
-        val pair = retryOnInvalidInput(OutputView::printError) { getUserPoint(price) }
+    fun run(
+        cart: Cart,
+        user: User,
+    ): Pair<Int, Int> {
+        var price = discountPerSeat(cart)
+        val pair = retryOnInvalidInput(OutputView::printError) { getUserPoint(user, price) }
         price = pair.first
 
         price = retryOnInvalidInput(OutputView::printError) { getPaymentMethod(price) }
@@ -29,19 +30,25 @@ class PaymentController(
         return price to pair.second
     }
 
-    fun getUserPoint(totalPrice: Int): Pair<Int, Int> {
+    fun getUserPoint(
+        user: User,
+        totalPrice: Int,
+    ): Pair<Int, Int> {
         val input = InputView.readPoint()
-        return pointUsageService.apply(totalPrice, input)
+        return pointUsageService.apply(user, totalPrice, input)
     }
 
-    fun discountPerSeat(): Int = priceCalculationService.calculateDiscountedPrice()
+    fun discountPerSeat(cart: Cart): Int = priceCalculationService.calculateDiscountedPrice(cart)
 
     fun getPaymentMethod(price: Int): Int {
         val input = InputView.readPaymentMethod()
         return paymentDiscountService.apply(price, input)
     }
 
-    fun confirmPayment(usedPoint: Int) {
+    fun confirmPayment(
+        user: User,
+        usedPoint: Int,
+    ) {
         user.discountPoint(usedPoint)
     }
 }
