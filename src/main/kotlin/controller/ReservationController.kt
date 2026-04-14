@@ -55,7 +55,7 @@ class ReservationController(
     fun chooseSeat(screening: Screening): List<Seat> {
         OutputView.printSeats(screening.screen)
 
-        val input = InputView.readSeat()
-        return seatSelectionService.selectSeats(screening, input)
+        val coordinates = InputView.readSeat()
+        return seatSelectionService.selectSeats(screening, coordinates)
     }
 }

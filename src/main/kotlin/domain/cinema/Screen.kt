@@ -2,6 +2,7 @@ package domain.cinema
 
 import domain.Id
 import domain.seat.Seat
+import domain.seat.SeatCoordinate
 import domain.seat.SeatState
 import util.ErrorMessage
 
@@ -14,12 +15,8 @@ class Screen(
         column: Int,
     ): Seat? = seats.find { it.coordinate.row == row && it.coordinate.column == column }
 
-    fun findAvailableSeat(input: String): Seat {
-        require(Regex("^[A-Z][0-9]+$").matches(input)) { ErrorMessage.INVALID_SEAT_INPUT }
-
-        val row = input[0]
-        val column = input.substring(1).toInt()
-        val seat = findSeat(row, column)
+    fun findAvailableSeat(coordinate: SeatCoordinate): Seat {
+        val seat = findSeat(coordinate.row, coordinate.column)
 
         require(seat != null) { ErrorMessage.SEAT_NOT_FOUND }
         require(seat.isReserved != SeatState.RESERVED) { ErrorMessage.SEAT_ALREADY_RESERVED }

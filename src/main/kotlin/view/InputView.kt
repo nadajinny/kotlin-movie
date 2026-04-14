@@ -1,5 +1,8 @@
 package view
 
+import domain.seat.SeatCoordinate
+import util.ErrorMessage
+
 object InputView {
     fun readLine(): String {
         val input = readln()
@@ -37,10 +40,10 @@ object InputView {
         return input
     }
 
-    fun readSeat(): String {
+    fun readSeat(): List<SeatCoordinate> {
         println("예약할 좌석을 입력하세요 (A1, B2):")
         val input = readLine()
-        return input
+        return parseSeatCoordinates(input)
     }
 
     fun readPurchaseConfirm(): String {
@@ -65,5 +68,17 @@ object InputView {
         )
         val input = readLine()
         return input
+    }
+
+    fun parseSeatCoordinates(input: String): List<SeatCoordinate> {
+        val seatInputs = input.split(',').map { it.trim() }
+        require(seatInputs.all { Regex("^[A-Z][0-9]+$").matches(it) }) { ErrorMessage.INVALID_SEAT_INPUT }
+
+        return seatInputs.map {
+            SeatCoordinate(
+                row = it[0],
+                column = it.substring(1).toInt(),
+            )
+        }
     }
 }

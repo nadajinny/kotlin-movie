@@ -4,7 +4,7 @@ import domain.Id
 import kotlinx.datetime.LocalDate
 
 class MovieTheater(
-//    val screens: List<Screen>,
+    val screens: List<Screen>,
     val movies: List<Movie>,
     val screenings: List<Screening>,
 ) {

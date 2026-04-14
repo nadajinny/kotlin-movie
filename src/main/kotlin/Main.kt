@@ -70,6 +70,7 @@ fun main() {
 
     val movieTheater =
         MovieTheater(
+            screens,
             movies,
             screenings,
         )

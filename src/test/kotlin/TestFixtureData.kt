@@ -59,7 +59,7 @@ object TestFixtureData {
 
     val movieTheater =
         MovieTheater(
-//        screens,
+            screens,
             movies,
             screenings,
         )
