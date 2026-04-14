@@ -2,13 +2,13 @@ package controller
 
 import domain.cinema.Movie
 import domain.cinema.MovieTheater
-import domain.cinema.Showing
+import domain.cinema.Screening
 import domain.reservation.Cart
 import domain.seat.Seat
 import kotlinx.datetime.LocalDate
 import service.MovieSelectionService
 import service.SeatSelectionService
-import service.ShowingSelectionService
+import service.ScreeningSelectionService
 import util.retryOnInvalidInput
 import view.InputView
 import view.OutputView
@@ -18,16 +18,16 @@ class ReservationController(
     val cart: Cart,
 ) {
     private val movieSelectionService = MovieSelectionService(movieTheater)
-    private val showingSelectionService = ShowingSelectionService(movieTheater, cart)
+    private val screeningSelectionService = ScreeningSelectionService(movieTheater, cart)
     private val seatSelectionService = SeatSelectionService()
 
-    fun run(): Pair<Showing, List<Seat>> {
+    fun run(): Pair<Screening, List<Seat>> {
         val movie = retryOnInvalidInput(OutputView::printError) { chooseMovie() }
         val date = retryOnInvalidInput(OutputView::printError) { chooseDate(movie) }
-        val showing = retryOnInvalidInput(OutputView::printError) { chooseShowingTime(movie, date) }
-        val seats = retryOnInvalidInput(OutputView::printError) { chooseSeat(showing) }
+        val screening = retryOnInvalidInput(OutputView::printError) { chooseScreening(movie, date) }
+        val seats = retryOnInvalidInput(OutputView::printError) { chooseSeat(screening) }
 
-        return showing to seats
+        return screening to seats
     }
 
     fun chooseMovie(): Movie {
@@ -37,25 +37,25 @@ class ReservationController(
 
     fun chooseDate(movie: Movie): LocalDate {
         val input = InputView.readDate()
-        return showingSelectionService.validateDate(movie, input)
+        return screeningSelectionService.validateDate(movie, input)
     }
 
-    fun chooseShowingTime(
+    fun chooseScreening(
         movie: Movie,
         date: LocalDate,
-    ): Showing {
-        val showings = movieTheater.findShowings(movie, date)
+    ): Screening {
+        val screenings = movieTheater.findScreenings(movie, date)
 
-        OutputView.printShowing(showings)
-        val input = InputView.readShowingNumber()
+        OutputView.printScreenings(screenings)
+        val input = InputView.readScreeningNumber()
 
-        return showingSelectionService.selectShowing(movie, date, input)
+        return screeningSelectionService.selectScreening(movie, date, input)
     }
 
-    fun chooseSeat(showing: Showing): List<Seat> {
-        OutputView.printSeats(showing.screen)
+    fun chooseSeat(screening: Screening): List<Seat> {
+        OutputView.printSeats(screening.screen)
 
         val input = InputView.readSeat()
-        return seatSelectionService.selectSeats(showing, input)
+        return seatSelectionService.selectSeats(screening, input)
     }
 }

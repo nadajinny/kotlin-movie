@@ -2,7 +2,7 @@ import domain.Id
 import domain.cinema.Movie
 import domain.cinema.MovieTheater
 import domain.cinema.Screen
-import domain.cinema.Showing
+import domain.cinema.Screening
 import domain.reservation.Cart
 import domain.reservation.ReservationInfo
 import domain.seat.Seat
@@ -44,24 +44,24 @@ object TestFixtureData {
             Screen(seats, Id(3)),
         )
 
-    val showings =
+    val screenings =
         listOf(
-            Showing(LocalDateTime(2026, 4, 10, 10, 0), screens[0], movies[0]),
-            Showing(LocalDateTime(2026, 4, 10, 14, 0), screens[1], movies[1]),
-            Showing(LocalDateTime(2026, 4, 10, 21, 0), screens[2], movies[2]),
+            Screening(LocalDateTime(2026, 4, 10, 10, 0), screens[0], movies[0]),
+            Screening(LocalDateTime(2026, 4, 10, 14, 0), screens[1], movies[1]),
+            Screening(LocalDateTime(2026, 4, 10, 21, 0), screens[2], movies[2]),
         )
 
     val reservationInfos =
         listOf(
-            ReservationInfo(showings[0], seats[0]),
-            ReservationInfo(showings[1], seats[2]),
+            ReservationInfo(screenings[0], seats[0]),
+            ReservationInfo(screenings[1], seats[2]),
         )
 
     val movieTheater =
         MovieTheater(
 //        screens,
             movies,
-            showings,
+            screenings,
         )
 
     val cart: Cart =

@@ -122,7 +122,7 @@ class ReservationControllerTest {
             }
 
         // then : 예외가 발생한다.
-        assertEquals(ErrorMessage.SHOWING_NOT_FOUND_FOR_DATE, exception.message)
+        assertEquals(ErrorMessage.SCREENING_NOT_FOUND_FOR_DATE, exception.message)
     }
 
     @Test
@@ -134,10 +134,10 @@ class ReservationControllerTest {
         // when : 상영을 처리하고 1번을 입력하면
         val input = "1"
         System.setIn(ByteArrayInputStream(input.toByteArray()))
-        val result = controller.chooseShowingTime(movie, date)
+        val result = controller.chooseScreening(movie, date)
 
         // then : 특정 상영이 반환된다.
-        assertEquals(TestFixtureData.movieTheater.showings[2], result)
+        assertEquals(TestFixtureData.movieTheater.screenings[2], result)
     }
 
     @Test
@@ -151,11 +151,11 @@ class ReservationControllerTest {
         // when : 상영을 확인한 뒤 상영 번호를 입력하면
         val exception =
             assertThrows<IllegalArgumentException> {
-                controller.chooseShowingTime(movie, date)
+                controller.chooseScreening(movie, date)
             }
 
         // then : 예외가 발생한다.
-        assertEquals(ErrorMessage.INVALID_SHOWING_NUMBER, exception.message)
+        assertEquals(ErrorMessage.INVALID_SCREENING_NUMBER, exception.message)
     }
 
     @Test
@@ -169,11 +169,11 @@ class ReservationControllerTest {
         // when : 상영을 확인한 뒤 상영 번호를 입력하면
         val exception =
             assertThrows<IllegalArgumentException> {
-                controller.chooseShowingTime(movie, date)
+                controller.chooseScreening(movie, date)
             }
 
         // then : 예외가 발생한다.
-        assertEquals(ErrorMessage.OVERLAPPING_SHOWING, exception.message)
+        assertEquals(ErrorMessage.OVERLAPPING_SCREENING, exception.message)
     }
 
     @Test
@@ -181,12 +181,12 @@ class ReservationControllerTest {
         // given : 좌석을 입력받는다.
         val input = "F//10"
         System.setIn(ByteArrayInputStream(input.toByteArray()))
-        val showing = TestFixtureData.showings.first()
+        val screening = TestFixtureData.screenings.first()
 
         // when : 상영을 확인한 뒤 상영 번호를 입력하면
         val exception =
             assertThrows<IllegalArgumentException> {
-                controller.chooseSeat(showing)
+                controller.chooseSeat(screening)
             }
 
         // then : 예외가 발생한다.
@@ -198,12 +198,12 @@ class ReservationControllerTest {
         // given : 좌석을 입력받는다.
         val input = "F10"
         System.setIn(ByteArrayInputStream(input.toByteArray()))
-        val showing = TestFixtureData.showings.first()
+        val screening = TestFixtureData.screenings.first()
 
         // when : 좌석을 확인한 뒤 좌석 번호를 입력하면
         val exception =
             assertThrows<IllegalArgumentException> {
-                controller.chooseSeat(showing)
+                controller.chooseSeat(screening)
             }
 
         // then : 예외가 발생한다.
@@ -215,10 +215,10 @@ class ReservationControllerTest {
         // given : ,로 구분된 좌석 번호들을 입력한다
         val input = "B1,B2"
         System.setIn(ByteArrayInputStream(input.toByteArray()))
-        val showing = TestFixtureData.showings.first()
+        val screening = TestFixtureData.screenings.first()
 
         // when : 좌석을 확인한 뒤 좌석 번호를 입력하면
-        val result = controller.chooseSeat(showing)
+        val result = controller.chooseSeat(screening)
 
         // then : 좌석 리스트가 반환된다.
         assertThat(result).containsExactly(TestFixtureData.seats[2], TestFixtureData.seats[3])
@@ -229,12 +229,12 @@ class ReservationControllerTest {
         // given : 좌석을 입력받는다.
         val input = "A1"
         System.setIn(ByteArrayInputStream(input.toByteArray()))
-        val showing = TestFixtureData.showings.first()
+        val screening = TestFixtureData.screenings.first()
 
         // when : 좌석을 확인한 뒤 좌석 번호를 입력하면
         val exception =
             assertThrows<IllegalArgumentException> {
-                controller.chooseSeat(showing)
+                controller.chooseSeat(screening)
             }
 
         // then : 예외가 발생한다.
@@ -246,10 +246,10 @@ class ReservationControllerTest {
         // given : 좌석 번호를 입력한다.
         val input = "B1"
         System.setIn(ByteArrayInputStream(input.toByteArray()))
-        val showing = TestFixtureData.showings.first()
+        val screening = TestFixtureData.screenings.first()
 
         // when : 좌석을 확인한 뒤 좌석 번호를 입력하면
-        val result = controller.chooseSeat(showing)
+        val result = controller.chooseSeat(screening)
 
         // then : 좌석 리스트가 반환된다.
         assertThat(result).containsExactly(TestFixtureData.seats[2])
@@ -267,7 +267,7 @@ class ReservationControllerTest {
 
         val result = controller.run()
 
-        assertThat(result.first).isEqualTo(TestFixtureData.showings.first())
+        assertThat(result.first).isEqualTo(TestFixtureData.screenings.first())
         assertThat(result.second).containsExactly(TestFixtureData.seats[2])
     }
 }

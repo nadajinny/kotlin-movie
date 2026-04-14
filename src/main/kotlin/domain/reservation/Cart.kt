@@ -1,6 +1,6 @@
 package domain.reservation
 
-import domain.cinema.Showing
+import domain.cinema.Screening
 import domain.seat.Seat
 import util.ErrorMessage
 
@@ -13,27 +13,27 @@ class Cart(
         )
 
     fun addAll(
-        showing: Showing,
+        screening: Screening,
         seats: List<Seat>,
     ): Cart =
         seats.fold(this) { cart, seat ->
-            cart.addInfo(ReservationInfo(showing, seat))
+            cart.addInfo(ReservationInfo(screening, seat))
         }
 
-    fun checkReservationHistory(showing: Showing) {
+    fun checkReservationHistory(screening: Screening) {
         val history =
             reservationInfos.filter {
-                showing.startTime >= it.showing.startTime && showing.startTime <= it.showing.endTime
+                screening.startTime >= it.screening.startTime && screening.startTime <= it.screening.endTime
             }
 
-        require(history.isEmpty()) { ErrorMessage.OVERLAPPING_SHOWING }
+        require(history.isEmpty()) { ErrorMessage.OVERLAPPING_SCREENING }
     }
 
     fun getAllReservationInfo(): List<String> =
         reservationInfos
-            .groupBy { it.showing }
-            .map { (showing, group) ->
+            .groupBy { it.screening }
+            .map { (screening, group) ->
                 val seats = group.joinToString(", ") { "${it.seat.coordinate.row}${it.seat.coordinate.column}" }
-                "- [${showing.movie.title}] ${showing.startTime.toString().replace("T", " ").substring(0, 16)} 좌석: $seats"
+                "- [${screening.movie.title}] ${screening.startTime.toString().replace("T", " ").substring(0, 16)} 좌석: $seats"
             }
 }

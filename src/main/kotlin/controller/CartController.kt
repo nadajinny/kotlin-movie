@@ -1,6 +1,6 @@
 package controller
 
-import domain.cinema.Showing
+import domain.cinema.Screening
 import domain.reservation.Cart
 import domain.reservation.ReservationInfo
 import domain.seat.Seat
@@ -13,19 +13,19 @@ class CartController {
         )
 
     fun run(
-        showing: Showing,
+        screening: Screening,
         seats: List<Seat>,
     ): Cart {
-        addAllReservationInfo(showing, seats)
+        addAllReservationInfo(screening, seats)
         showCart()
         return cart
     }
 
     fun addAllReservationInfo(
-        showing: Showing,
+        screening: Screening,
         seats: List<Seat>,
     ) {
-        cart = cart.addAll(showing, seats)
+        cart = cart.addAll(screening, seats)
     }
 
     fun addReservationInfo(reservationInfo: ReservationInfo) {

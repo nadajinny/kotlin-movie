@@ -6,7 +6,7 @@ import domain.Id
 import domain.cinema.Movie
 import domain.cinema.MovieTheater
 import domain.cinema.Screen
-import domain.cinema.Showing
+import domain.cinema.Screening
 import domain.seat.Seat
 import domain.seat.SeatCoordinate
 import domain.seat.SeatGrade
@@ -56,21 +56,21 @@ fun main() {
             Screen(seats, Id(3)),
         )
 
-    val showings =
+    val screenings =
         listOf(
-            Showing(LocalDateTime(2025, 9, 20, 10, 20), screens[0], movies[0]),
-            Showing(LocalDateTime(2025, 9, 20, 13, 0), screens[0], movies[0]),
-            Showing(LocalDateTime(2025, 9, 20, 15, 40), screens[0], movies[0]),
-            Showing(LocalDateTime(2025, 9, 20, 20, 10), screens[0], movies[0]),
-            Showing(LocalDateTime(2025, 9, 20, 13, 30), screens[1], movies[1]),
-            Showing(LocalDateTime(2025, 9, 20, 16, 0), screens[1], movies[1]),
-            Showing(LocalDateTime(2025, 9, 20, 9, 50), screens[2], movies[2]),
+            Screening(LocalDateTime(2025, 9, 20, 10, 20), screens[0], movies[0]),
+            Screening(LocalDateTime(2025, 9, 20, 13, 0), screens[0], movies[0]),
+            Screening(LocalDateTime(2025, 9, 20, 15, 40), screens[0], movies[0]),
+            Screening(LocalDateTime(2025, 9, 20, 20, 10), screens[0], movies[0]),
+            Screening(LocalDateTime(2025, 9, 20, 13, 30), screens[1], movies[1]),
+            Screening(LocalDateTime(2025, 9, 20, 16, 0), screens[1], movies[1]),
+            Screening(LocalDateTime(2025, 9, 20, 9, 50), screens[2], movies[2]),
         )
 
     val movieTheater =
         MovieTheater(
             movies,
-            showings,
+            screenings,
         )
 
     val cartController = CartController()
@@ -92,7 +92,7 @@ fun main() {
         val pair = reservationController.run()
 
         cartController.run(
-            showing = pair.first,
+            screening = pair.first,
             seats = pair.second,
         )
 

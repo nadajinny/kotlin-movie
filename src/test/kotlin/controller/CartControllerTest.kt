@@ -9,12 +9,12 @@ class CartControllerTest {
     @Test
     fun `장바구니에 예매 항목을 추가할 수 있다`() {
         // given : 선택한 상영과 좌석 정보가 주어진다.
-        val showing = TestFixtureData.showings.first()
+        val screening = TestFixtureData.screenings.first()
         val seats = listOf(TestFixtureData.seats[2], TestFixtureData.seats[3])
 
         // when : 장바구니에 예매 항목을 추가하면
         controller.addAllReservationInfo(
-            showing = showing,
+            screening = screening,
             seats = seats,
         )
 
@@ -27,11 +27,11 @@ class CartControllerTest {
     @Test
     fun `장바구니에 담긴 전체 항목을 조회할 수 있다`() {
         // given : 선택한 상영과 좌석 정보가 주어지고 장바구니에 예매 항목을 추가한다.
-        val showing = TestFixtureData.showings.first()
+        val screening = TestFixtureData.screenings.first()
         val seats = listOf(TestFixtureData.seats[2], TestFixtureData.seats[3])
 
         controller.addAllReservationInfo(
-            showing = showing,
+            screening = screening,
             seats = seats,
         )
 

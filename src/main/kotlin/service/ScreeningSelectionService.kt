@@ -2,12 +2,12 @@ package service
 
 import domain.cinema.Movie
 import domain.cinema.MovieTheater
-import domain.cinema.Showing
+import domain.cinema.Screening
 import domain.reservation.Cart
 import kotlinx.datetime.LocalDate
 import util.ErrorMessage
 
-class ShowingSelectionService(
+class ScreeningSelectionService(
     private val movieTheater: MovieTheater,
     private val cart: Cart,
 ) {
@@ -18,24 +18,24 @@ class ShowingSelectionService(
         val date = runCatching { LocalDate.parse(input) }.getOrNull()
         require(date != null) { ErrorMessage.INVALID_DATE_FORMAT }
 
-        val showings = movieTheater.findShowings(movie, date)
-        require(showings.isNotEmpty()) { ErrorMessage.SHOWING_NOT_FOUND_FOR_DATE }
+        val screenings = movieTheater.findScreenings(movie, date)
+        require(screenings.isNotEmpty()) { ErrorMessage.SCREENING_NOT_FOUND_FOR_DATE }
 
         return date
     }
 
-    fun selectShowing(
+    fun selectScreening(
         movie: Movie,
         date: LocalDate,
         input: String,
-    ): Showing {
-        val showings = movieTheater.findShowings(movie, date)
+    ): Screening {
+        val screenings = movieTheater.findScreenings(movie, date)
 
-        require(input.toIntOrNull() != null && input.toInt() <= showings.size) { ErrorMessage.INVALID_SHOWING_NUMBER }
+        require(input.toIntOrNull() != null && input.toInt() <= screenings.size) { ErrorMessage.INVALID_SCREENING_NUMBER }
 
-        val showing = showings[input.toInt() - 1]
-        cart.checkReservationHistory(showing)
+        val screening = screenings[input.toInt() - 1]
+        cart.checkReservationHistory(screening)
 
-        return showing
+        return screening
     }
 }

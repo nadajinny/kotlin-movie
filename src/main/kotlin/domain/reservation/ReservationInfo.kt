@@ -1,19 +1,19 @@
 package domain.reservation
 
-import domain.cinema.Showing
+import domain.cinema.Screening
 import domain.seat.Seat
 
 class ReservationInfo(
-    val showing: Showing,
+    val screening: Screening,
     val seat: Seat,
 ) {
     companion object {
         fun create(
-            showing: Showing,
+            screening: Screening,
             seat: Seat,
         ): ReservationInfo =
             ReservationInfo(
-                showing,
+                screening,
                 seat,
             )
     }

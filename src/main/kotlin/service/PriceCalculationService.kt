@@ -10,7 +10,7 @@ class PriceCalculationService(
         cart.reservationInfos.sumOf {
             Calculator.calculateByMovie(
                 price = it.seat.grade.price,
-                date = it.showing.startTime,
+                date = it.screening.startTime,
             )
         }
 }

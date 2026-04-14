@@ -6,7 +6,7 @@ import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Duration.Companion.minutes
 
-class Showing(
+class Screening(
     val startTime: LocalDateTime,
     val screen: Screen,
     val movie: Movie,

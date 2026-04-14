@@ -1,7 +1,7 @@
 package view
 
 import domain.cinema.Screen
-import domain.cinema.Showing
+import domain.cinema.Screening
 
 object OutputView {
     fun printError(message: String) {
@@ -9,11 +9,11 @@ object OutputView {
         println()
     }
 
-    fun printShowing(showings: List<Showing>) {
+    fun printScreenings(screenings: List<Screening>) {
         println("해당 날짜의 상영 목록")
 
-        showings.forEachIndexed { index, showing ->
-            println("[${index + 1}] ${showing.startTime.time}")
+        screenings.forEachIndexed { index, screening ->
+            println("[${index + 1}] ${screening.startTime.time}")
         }
     }
 

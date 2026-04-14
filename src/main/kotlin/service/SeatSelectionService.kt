@@ -1,15 +1,15 @@
 package service
 
-import domain.cinema.Showing
+import domain.cinema.Screening
 import domain.seat.Seat
 
 class SeatSelectionService {
     fun selectSeats(
-        showing: Showing,
+        screening: Screening,
         input: String,
     ): List<Seat> {
         val seatInputs = input.split(',').map { it.trim() }
 
-        return seatInputs.map(showing.screen::findAvailableSeat)
+        return seatInputs.map(screening.screen::findAvailableSeat)
     }
 }

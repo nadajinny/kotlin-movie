@@ -3,16 +3,16 @@ package domain.purchase
 import domain.purchase.policy.payment.CardPaymentDiscountPolicy
 import domain.purchase.policy.payment.CashPaymentDiscountPolicy
 import domain.purchase.policy.payment.PaymentDiscountPolicy
-import domain.purchase.policy.showing.MovieDayDiscountPolicy
-import domain.purchase.policy.showing.ShowTimeDiscountPolicy
-import domain.purchase.policy.showing.ShowingDiscountPolicy
+import domain.purchase.policy.screening.MovieDayDiscountPolicy
+import domain.purchase.policy.screening.ShowTimeDiscountPolicy
+import domain.purchase.policy.screening.ScreeningDiscountPolicy
 import domain.user.User
 import kotlinx.datetime.LocalDateTime
 
 object Calculator {
     private val movieDayDiscountPolicy = MovieDayDiscountPolicy()
     private val showTimeDiscountPolicy = ShowTimeDiscountPolicy()
-    private val showingDiscountPolicies: List<ShowingDiscountPolicy> =
+    private val screeningDiscountPolicies: List<ScreeningDiscountPolicy> =
         listOf(
             movieDayDiscountPolicy,
             showTimeDiscountPolicy,
@@ -36,7 +36,7 @@ object Calculator {
         price: Int,
         date: LocalDateTime,
     ): Int =
-        showingDiscountPolicies.fold(price) { discountedPrice, policy ->
+        screeningDiscountPolicies.fold(price) { discountedPrice, policy ->
             policy.apply(discountedPrice, date)
         }
 

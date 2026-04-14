@@ -31,7 +31,7 @@ object InputView {
         return input
     }
 
-    fun readShowingNumber(): String {
+    fun readScreeningNumber(): String {
         println("상영 번호를 선택하세요:")
         val input = readLine()
         return input

@@ -1,9 +1,9 @@
-package domain.purchase.policy.showing
+package domain.purchase.policy.screening
 
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 
-class ShowTimeDiscountPolicy : ShowingDiscountPolicy {
+class ShowTimeDiscountPolicy : ScreeningDiscountPolicy {
     override fun apply(
         price: Int,
         date: LocalDateTime,

@@ -1,6 +1,6 @@
 package domain
 
-import domain.purchase.policy.showing.ShowTimeDiscountPolicy
+import domain.purchase.policy.screening.ShowTimeDiscountPolicy
 import kotlinx.datetime.LocalDateTime
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
