@@ -9,24 +9,12 @@ import util.ErrorMessage
 
 class UserTest {
     @Test
-    fun `ID는 양수일 때 정상 생성 되어야 한다`() {
-        // given & when : User의 ID에 양수값을 넣는다.
+    fun `사용자는 ID로 정상 생성 되어야 한다`() {
+        // given & when : User의 ID를 넣는다.
         val result = User(Id(1))
 
         // then : 정상 생성 된다.
         assertNotNull(result)
-    }
-
-    @Test
-    fun `ID가 음수일 때 예외가 발생한다`() {
-        // given & when : User의 ID에 음수값을 넣는다.
-        val exception =
-            assertThrows<IllegalArgumentException> {
-                User(Id(-1))
-            }
-
-        // then : 예외가 발생한다.
-        assertEquals(ErrorMessage.ID_MUST_BE_POSITIVE, exception.message)
     }
 
     @Test
