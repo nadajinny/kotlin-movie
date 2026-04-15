@@ -3,18 +3,11 @@ package controller
 import domain.purchase.PaymentMethod
 import domain.reservation.Cart
 import domain.user.User
-import service.PaymentDiscountService
-import service.PointUsageService
-import service.PriceCalculationService
 import util.retryOnInvalidInput
 import view.InputView
 import view.OutputView
 
 class PaymentController {
-    private val priceCalculationService = PriceCalculationService()
-    private val pointUsageService = PointUsageService()
-    private val paymentDiscountService = PaymentDiscountService()
-
     fun run(
         cart: Cart,
         user: User,
@@ -35,14 +28,14 @@ class PaymentController {
         totalPrice: Int,
     ): Pair<Int, Int> {
         val input = InputView.readPoint()
-        return pointUsageService.apply(user, totalPrice, input)
+        return user.previewPointUsage(totalPrice, input)
     }
 
-    fun discountPerSeat(cart: Cart): Int = priceCalculationService.calculateDiscountedPrice(cart)
+    fun discountPerSeat(cart: Cart): Int = cart.totalPrice()
 
     fun getPaymentMethod(price: Int): Int {
         val method: PaymentMethod = InputView.readPaymentMethod()
-        return paymentDiscountService.apply(price, method)
+        return method.applyDiscount(price)
     }
 
     fun confirmPayment(

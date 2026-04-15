@@ -7,14 +7,5 @@ class ReservationInfo(
     val screening: Screening,
     val seat: Seat,
 ) {
-    companion object {
-        fun create(
-            screening: Screening,
-            seat: Seat,
-        ): ReservationInfo =
-            ReservationInfo(
-                screening,
-                seat,
-            )
-    }
+    fun price(): Int = screening.calculatePrice(seat.grade.price)
 }

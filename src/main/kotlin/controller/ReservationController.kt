@@ -6,9 +6,6 @@ import domain.cinema.Screening
 import domain.reservation.Cart
 import domain.seat.Seat
 import kotlinx.datetime.LocalDate
-import service.MovieSelectionService
-import service.ScreeningSelectionService
-import service.SeatSelectionService
 import util.retryOnInvalidInput
 import view.InputView
 import view.OutputView
@@ -16,10 +13,6 @@ import view.OutputView
 class ReservationController(
     val movieTheater: MovieTheater,
 ) {
-    private val movieSelectionService = MovieSelectionService(movieTheater)
-    private val screeningSelectionService = ScreeningSelectionService(movieTheater)
-    private val seatSelectionService = SeatSelectionService()
-
     fun run(cart: Cart): Pair<Screening, List<Seat>> {
         val movie = retryOnInvalidInput(OutputView::printError) { chooseMovie() }
         val date = retryOnInvalidInput(OutputView::printError) { chooseDate(movie) }
@@ -31,12 +24,12 @@ class ReservationController(
 
     fun chooseMovie(): Movie {
         val input = InputView.readMovieTitle()
-        return movieSelectionService.selectByTitle(input)
+        return movieTheater.chooseMovie(input)
     }
 
     fun chooseDate(movie: Movie): LocalDate {
         val input = InputView.readDate()
-        return screeningSelectionService.validateDate(movie, input)
+        return movieTheater.validateScreeningDate(movie, input)
     }
 
     fun chooseScreening(
@@ -49,13 +42,13 @@ class ReservationController(
         OutputView.printScreenings(screenings)
         val input = InputView.readScreeningNumber()
 
-        return screeningSelectionService.selectScreening(cart, movie, date, input)
+        return movieTheater.chooseScreening(cart, movie, date, input)
     }
 
     fun chooseSeat(screening: Screening): List<Seat> {
         OutputView.printSeats(screening.screen)
 
         val coordinates = InputView.readSeat()
-        return seatSelectionService.selectSeats(screening, coordinates)
+        return screening.screen.selectSeats(coordinates)
     }
 }

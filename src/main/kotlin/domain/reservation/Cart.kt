@@ -28,4 +28,6 @@ class Cart(
 
         require(history.isEmpty()) { ErrorMessage.OVERLAPPING_SCREENING }
     }
+
+    fun totalPrice(): Int = reservationInfos.sumOf(ReservationInfo::price)
 }
