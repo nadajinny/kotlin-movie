@@ -1,8 +1,8 @@
 package controller
 
+import domain.purchase.PaymentMethod
 import domain.reservation.Cart
 import domain.user.User
-import domain.purchase.PaymentMethod
 import service.PaymentDiscountService
 import service.PointUsageService
 import service.PriceCalculationService
@@ -10,8 +10,7 @@ import util.retryOnInvalidInput
 import view.InputView
 import view.OutputView
 
-class PaymentController(
-) {
+class PaymentController {
     private val priceCalculationService = PriceCalculationService()
     private val pointUsageService = PointUsageService()
     private val paymentDiscountService = PaymentDiscountService()

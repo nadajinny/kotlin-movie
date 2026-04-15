@@ -4,8 +4,8 @@ import domain.purchase.policy.payment.CardPaymentDiscountPolicy
 import domain.purchase.policy.payment.CashPaymentDiscountPolicy
 import domain.purchase.policy.payment.PaymentDiscountPolicy
 import domain.purchase.policy.screening.MovieDayDiscountPolicy
-import domain.purchase.policy.screening.ShowTimeDiscountPolicy
 import domain.purchase.policy.screening.ScreeningDiscountPolicy
+import domain.purchase.policy.screening.ShowTimeDiscountPolicy
 import domain.user.User
 import kotlinx.datetime.LocalDateTime
 

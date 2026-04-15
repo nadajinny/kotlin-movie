@@ -7,8 +7,8 @@ import domain.reservation.Cart
 import domain.seat.Seat
 import kotlinx.datetime.LocalDate
 import service.MovieSelectionService
-import service.SeatSelectionService
 import service.ScreeningSelectionService
+import service.SeatSelectionService
 import util.retryOnInvalidInput
 import view.InputView
 import view.OutputView

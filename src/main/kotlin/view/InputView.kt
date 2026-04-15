@@ -1,7 +1,7 @@
 package view
 
-import domain.seat.SeatCoordinate
 import domain.purchase.PaymentMethod
+import domain.seat.SeatCoordinate
 import util.ErrorMessage
 
 object InputView {
