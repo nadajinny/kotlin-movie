@@ -2,7 +2,7 @@ package controller
 
 import domain.cinema.Movie
 import domain.cinema.MovieTheater
-import domain.cinema.Screening
+import domain.cinema.ScreeningSchedule
 import domain.reservation.Cart
 import domain.seat.Seat
 import kotlinx.datetime.LocalDate
@@ -13,7 +13,7 @@ import view.OutputView
 class ReservationController(
     val movieTheater: MovieTheater,
 ) {
-    fun run(cart: Cart): Pair<Screening, List<Seat>> {
+    fun run(cart: Cart): Pair<ScreeningSchedule, List<Seat>> {
         val movie = retryOnInvalidInput(OutputView::printError) { chooseMovie() }
         val date = retryOnInvalidInput(OutputView::printError) { chooseDate(movie) }
         val screening = retryOnInvalidInput(OutputView::printError) { chooseScreening(cart, movie, date) }
@@ -36,7 +36,7 @@ class ReservationController(
         cart: Cart,
         movie: Movie,
         date: LocalDate,
-    ): Screening {
+    ): ScreeningSchedule {
         val screenings = movieTheater.findScreenings(movie, date)
 
         OutputView.printScreenings(screenings)
@@ -45,7 +45,7 @@ class ReservationController(
         return movieTheater.chooseScreening(cart, movie, date, input)
     }
 
-    fun chooseSeat(screening: Screening): List<Seat> {
+    fun chooseSeat(screening: ScreeningSchedule): List<Seat> {
         OutputView.printSeats(screening.screen)
 
         val coordinates = InputView.readSeat()

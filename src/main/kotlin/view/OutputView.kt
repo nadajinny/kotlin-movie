@@ -1,7 +1,7 @@
 package view
 
 import domain.cinema.Screen
-import domain.cinema.Screening
+import domain.cinema.ScreeningSchedule
 import domain.reservation.ReservationInfo
 
 object OutputView {
@@ -10,7 +10,7 @@ object OutputView {
         println()
     }
 
-    fun printScreenings(screenings: List<Screening>) {
+    fun printScreenings(screenings: List<ScreeningSchedule>) {
         println("해당 날짜의 상영 목록")
 
         screenings.forEachIndexed { index, screening ->

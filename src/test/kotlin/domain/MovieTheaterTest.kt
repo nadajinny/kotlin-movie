@@ -1,6 +1,6 @@
 package domain
 
-import domain.cinema.Screening
+import domain.cinema.ScreeningSchedule
 import kotlinx.datetime.LocalDate
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
@@ -44,6 +44,6 @@ class MovieTheaterTest {
         val movie = TestFixtureData.movieTheater.findMovieById(movieId)
         val result = movie?.let { TestFixtureData.movieTheater.findScreenings(it, date) }
 
-        assertEquals(emptyList<Screening>(), result)
+        assertEquals(emptyList<ScreeningSchedule>(), result)
     }
 }

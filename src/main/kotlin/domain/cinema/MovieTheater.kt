@@ -8,7 +8,7 @@ import util.ErrorMessage
 class MovieTheater(
     val screens: List<Screen>,
     val movies: List<Movie>,
-    val screenings: List<Screening>,
+    val screenings: List<ScreeningSchedule>,
 ) {
     fun findMovie(title: String): Movie? = movies.find { it.title == title }
 
@@ -19,7 +19,7 @@ class MovieTheater(
     fun findScreenings(
         movie: Movie,
         date: LocalDate,
-    ): List<Screening> = screenings.filter { it.movie == movie && it.startTime.date == date }
+    ): List<ScreeningSchedule> = screenings.filter { it.movie == movie && it.startTime.date == date }
 
     fun validateScreeningDate(
         movie: Movie,
@@ -37,7 +37,7 @@ class MovieTheater(
         movie: Movie,
         date: LocalDate,
         input: String,
-    ): Screening {
+    ): ScreeningSchedule {
         val screenings = findScreenings(movie, date)
         val screeningNumber = input.toIntOrNull()
 

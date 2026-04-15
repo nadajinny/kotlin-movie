@@ -1,6 +1,6 @@
 package domain.reservation
 
-import domain.cinema.Screening
+import domain.cinema.ScreeningSchedule
 import domain.seat.Seat
 import util.ErrorMessage
 
@@ -13,14 +13,14 @@ class Cart(
         )
 
     fun addAll(
-        screening: Screening,
+        screening: ScreeningSchedule,
         seats: List<Seat>,
     ): Cart =
         seats.fold(this) { cart, seat ->
             cart.addInfo(ReservationInfo(screening, seat))
         }
 
-    fun checkReservationHistory(screening: Screening) {
+    fun checkReservationHistory(screening: ScreeningSchedule) {
         val history =
             reservationInfos.filter {
                 screening.startTime >= it.screening.startTime && screening.startTime <= it.screening.endTime
