@@ -114,13 +114,13 @@ fun main() {
             }
     }
 
-    val total = paymentController.run(cart, user)
+    val receipt = paymentController.run(cart, user)
     val confirm =
         retryOnInvalidInput(OutputView::printError) {
             flowController.start(InputView.readPurchaseConfirm())
         }
     if (!confirm) return
-    paymentController.confirmPayment(user, total.second)
+    paymentController.confirmPayment(user, receipt)
 
-    OutputView.printTotal(cart.reservationInfos, total.first, total.second)
+    OutputView.printTotal(receipt)
 }

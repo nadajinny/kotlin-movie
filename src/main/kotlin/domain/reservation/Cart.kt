@@ -1,6 +1,7 @@
 package domain.reservation
 
 import domain.cinema.ScreeningSchedule
+import domain.purchase.Receipt
 import domain.seat.Seat
 import util.ErrorMessage
 
@@ -30,4 +31,6 @@ class Cart(
     }
 
     fun totalPrice(): Int = reservationInfos.sumOf(ReservationInfo::price)
+
+    fun issueReceipt(): Receipt = Receipt(reservationInfos)
 }

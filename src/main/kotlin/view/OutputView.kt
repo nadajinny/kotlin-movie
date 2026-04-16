@@ -2,6 +2,7 @@ package view
 
 import domain.cinema.Screen
 import domain.cinema.ScreeningSchedule
+import domain.purchase.Receipt
 import domain.reservation.ReservationInfo
 
 object OutputView {
@@ -54,16 +55,12 @@ object OutputView {
 
     fun printByDecimalFormat(price: Int): String = String.format("%,d", price)
 
-    fun printTotal(
-        totalHistory: List<ReservationInfo>,
-        totalPrice: Int,
-        usedPoint: Int,
-    ) {
+    fun printTotal(receipt: Receipt) {
         println("예매완료")
         println("내역:")
-        printCart(totalHistory)
+        printCart(receipt.purchaseHistory)
 
-        println("결제 금액: ${printByDecimalFormat(totalPrice)}원 (포인트 ${printByDecimalFormat(usedPoint)})")
+        println("결제 금액: ${printByDecimalFormat(receipt.totalPrice())}원 (포인트 ${printByDecimalFormat(receipt.usedPoint)})")
 
         println()
         println("감사합니다.")

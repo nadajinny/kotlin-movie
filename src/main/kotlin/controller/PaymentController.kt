@@ -1,6 +1,6 @@
 package controller
 
-import domain.purchase.PaymentMethod
+import domain.purchase.Receipt
 import domain.reservation.Cart
 import domain.user.User
 import util.retryOnInvalidInput
@@ -11,37 +11,31 @@ class PaymentController {
     fun run(
         cart: Cart,
         user: User,
-    ): Pair<Int, Int> {
-        var price = discountPerSeat(cart)
-        val pair = retryOnInvalidInput(OutputView::printError) { getUserPoint(user, price) }
-        price = pair.first
+    ): Receipt {
+        var receipt = cart.issueReceipt()
+        receipt = retryOnInvalidInput(OutputView::printError) { getUserPoint(receipt, user) }
 
-        price = retryOnInvalidInput(OutputView::printError) { getPaymentMethod(price) }
+        receipt = retryOnInvalidInput(OutputView::printError) { getPaymentMethod(receipt) }
 
-        OutputView.printTotalPrice(price)
+        OutputView.printTotalPrice(receipt.totalPrice())
 
-        return price to pair.second
+        return receipt
     }
+
+    fun createReceipt(cart: Cart): Receipt = cart.issueReceipt()
 
     fun getUserPoint(
+        receipt: Receipt,
         user: User,
-        totalPrice: Int,
-    ): Pair<Int, Int> {
+    ): Receipt {
         val input = InputView.readPoint()
-        return user.previewPointUsage(totalPrice, input)
+        return receipt.applyPoint(user, input)
     }
 
-    fun discountPerSeat(cart: Cart): Int = cart.totalPrice()
-
-    fun getPaymentMethod(price: Int): Int {
-        val method: PaymentMethod = InputView.readPaymentMethod()
-        return method.applyDiscount(price)
-    }
+    fun getPaymentMethod(receipt: Receipt): Receipt = receipt.applyPaymentMethod(InputView.readPaymentMethod())
 
     fun confirmPayment(
         user: User,
-        usedPoint: Int,
-    ) {
-        user.discountPoint(usedPoint)
-    }
+        receipt: Receipt,
+    ) = receipt.confirm(user)
 }
