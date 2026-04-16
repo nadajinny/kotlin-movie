@@ -81,4 +81,21 @@ class CinemaDatabaseTest {
         assertThat(reloadedScreening.screen.findSeat('C', 1)!!.isReserved).isEqualTo(SeatState.RESERVED)
         assertThat(reloadedScreening.screen.findSeat('C', 2)!!.isReserved).isEqualTo(SeatState.AVAILABLE)
     }
+
+    @Test
+    fun `테스트 간 데이터가 서로 영향을 주지 않는다`() {
+        val firstDatabase = CinemaDatabase.inMemory(UUID.randomUUID().toString())
+        val secondDatabase = CinemaDatabase.inMemory(UUID.randomUUID().toString())
+        val firstScreening = firstDatabase.loadMovieTheater().screenings.first()
+        val reservedSeat = firstScreening.screen.findSeat('C', 1)!!
+
+        firstDatabase.saveReservations(listOf(ReservationInfo(firstScreening, reservedSeat)))
+
+        val secondMovieTheater = secondDatabase.loadMovieTheater()
+        val secondScreening = secondMovieTheater.screenings.first()
+
+        assertThat(firstDatabase.findReservations()).hasSize(1)
+        assertThat(secondDatabase.findReservations()).isEmpty()
+        assertThat(secondScreening.screen.findSeat('C', 1)!!.isReserved).isEqualTo(SeatState.AVAILABLE)
+    }
 }
