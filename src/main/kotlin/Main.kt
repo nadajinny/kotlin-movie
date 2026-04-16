@@ -3,77 +3,19 @@ import controller.FlowController
 import controller.PaymentController
 import controller.ReservationController
 import domain.Id
-import domain.cinema.Movie
-import domain.cinema.MovieTheater
-import domain.cinema.Screen
-import domain.cinema.ScreeningSchedule
 import domain.reservation.Cart
-import domain.seat.Seat
-import domain.seat.SeatCoordinate
-import domain.seat.SeatGrade
-import domain.seat.SeatState
 import domain.user.User
-import kotlinx.datetime.LocalDateTime
+import persistence.CinemaDatabase
 import util.retryOnInvalidInput
 import view.InputView
 import view.OutputView
+import java.nio.file.Paths
 
 fun main() {
-    val movies =
-        listOf(
-            Movie("F1 더 무비", Id("movie-f1"), 130),
-            Movie("토이 스토리", Id("movie-toy-story"), 100),
-            Movie("아이언맨", Id("movie-iron-man"), 126),
-        )
-
-    val seats =
-        listOf(
-            Seat(SeatCoordinate('A', 1), SeatGrade.B, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('A', 2), SeatGrade.B, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('A', 3), SeatGrade.B, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('A', 4), SeatGrade.B, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('B', 1), SeatGrade.B, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('B', 2), SeatGrade.B, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('B', 3), SeatGrade.B, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('B', 4), SeatGrade.B, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('C', 1), SeatGrade.S, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('C', 2), SeatGrade.S, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('C', 3), SeatGrade.S, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('C', 4), SeatGrade.S, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('D', 1), SeatGrade.S, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('D', 2), SeatGrade.S, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('D', 3), SeatGrade.S, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('D', 4), SeatGrade.S, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('E', 1), SeatGrade.A, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('E', 2), SeatGrade.A, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('E', 3), SeatGrade.A, SeatState.AVAILABLE),
-            Seat(SeatCoordinate('E', 4), SeatGrade.A, SeatState.AVAILABLE),
-        )
-
-    val screens =
-        listOf(
-            Screen(seats, Id("screen-1")),
-            Screen(seats, Id("screen-2")),
-            Screen(seats, Id("screen-3")),
-        )
-
-    val screenings =
-        listOf(
-            ScreeningSchedule(LocalDateTime(2025, 9, 20, 10, 20), screens[0], movies[0]),
-            ScreeningSchedule(LocalDateTime(2025, 9, 20, 13, 0), screens[0], movies[0]),
-            ScreeningSchedule(LocalDateTime(2025, 9, 20, 15, 40), screens[0], movies[0]),
-            ScreeningSchedule(LocalDateTime(2025, 9, 20, 20, 10), screens[0], movies[0]),
-            ScreeningSchedule(LocalDateTime(2025, 9, 20, 13, 30), screens[1], movies[1]),
-            ScreeningSchedule(LocalDateTime(2025, 9, 20, 16, 0), screens[1], movies[1]),
-            ScreeningSchedule(LocalDateTime(2025, 9, 20, 9, 50), screens[2], movies[2]),
-        )
-
-    val movieTheater =
-        MovieTheater(
-            screens,
-            movies,
-            screenings,
-        )
+    val databaseDirectory = Paths.get("storage")
+    databaseDirectory.toFile().mkdirs()
+    val cinemaDatabase = CinemaDatabase.local(databaseDirectory.resolve("movie-ticketing"))
+    val movieTheater = cinemaDatabase.loadMovieTheater()
 
     var cart =
         Cart(
@@ -121,6 +63,7 @@ fun main() {
         }
     if (!confirm) return
     paymentController.confirmPayment(user, receipt)
+    cinemaDatabase.saveReservations(receipt.purchaseHistory)
 
     OutputView.printTotal(receipt)
 }
