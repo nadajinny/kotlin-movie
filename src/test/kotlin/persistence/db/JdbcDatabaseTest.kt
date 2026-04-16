@@ -1,6 +1,7 @@
 package persistence.db
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.util.UUID
 
@@ -20,5 +21,36 @@ class JdbcDatabaseTest {
             }
 
         assertEquals(1, actual)
+    }
+
+    @Test
+    fun `테이블 초기화가 정상적으로 수행된다`() {
+        val database = JdbcDatabase.inMemory(UUID.randomUUID().toString())
+
+        DatabaseInitializer(database).initialize()
+
+        val actual =
+            database.withConnection { connection ->
+                connection.createStatement().use { statement ->
+                    val resultSet =
+                        statement.executeQuery(
+                            """
+                            SELECT table_name
+                            FROM information_schema.tables
+                            WHERE table_schema = 'PUBLIC'
+                            """.trimIndent(),
+                        )
+
+                    resultSet.use { resultSet ->
+                        buildSet {
+                            while (resultSet.next()) {
+                                add(resultSet.getString("table_name"))
+                            }
+                        }
+                    }
+                }
+            }
+
+        assertTrue(actual.containsAll(setOf("MOVIES", "SCREENS", "SCREENINGS", "RESERVATIONS")))
     }
 }
