@@ -46,13 +46,16 @@ class CinemaDatabaseTest {
         database.saveReservations(reservations)
 
         val actual = database.findReservations()
+        val expected =
+            reservations
+                .sortedBy { it.screening.startTime.toString() }
+                .map {
+                    "${it.screening.movie.id.value}/${it.screening.screen.id.value}/${it.screening.startTime}/${it.seat.coordinate.row}${it.seat.coordinate.column}"
+                }
 
         assertEquals(2, actual.size)
         assertEquals(
-            listOf(
-                "movie-iron-man/screen-3/2025-09-20T09:50/E4",
-                "movie-f1/screen-1/2025-09-20T10:20/C1",
-            ),
+            expected,
             actual.map {
                 "${it.screening.movie.id.value}/${it.screening.screen.id.value}/${it.screening.startTime}/${it.seat.coordinate.row}${it.seat.coordinate.column}"
             },
