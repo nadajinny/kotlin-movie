@@ -60,4 +60,25 @@ class CinemaDatabaseTest {
         ).isEqualTo(expected)
         assertThat(actual).allSatisfy { assertThat(it.seat.isReserved).isEqualTo(SeatState.RESERVED) }
     }
+
+    @Test
+    fun `저장된 예매 정보가 좌석 예약 상태에 반영된다`() {
+        val database = CinemaDatabase.inMemory(UUID.randomUUID().toString())
+        val movieTheater = database.loadMovieTheater()
+        val screening = movieTheater.screenings.first()
+        val reservedSeat = screening.screen.findSeat('C', 1)!!
+
+        database.saveReservations(listOf(ReservationInfo(screening, reservedSeat)))
+
+        val reloadedMovieTheater = database.loadMovieTheater()
+        val reloadedScreening =
+            reloadedMovieTheater.screenings.first {
+                it.movie.id.value == screening.movie.id.value &&
+                    it.screen.id.value == screening.screen.id.value &&
+                    it.startTime == screening.startTime
+            }
+
+        assertThat(reloadedScreening.screen.findSeat('C', 1)!!.isReserved).isEqualTo(SeatState.RESERVED)
+        assertThat(reloadedScreening.screen.findSeat('C', 2)!!.isReserved).isEqualTo(SeatState.AVAILABLE)
+    }
 }
