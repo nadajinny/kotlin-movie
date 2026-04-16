@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 class MovieTheaterTest {
     @Test
     fun `영화의 id가 존재하지 않으면 null을 반환한다`() {
-        val movieId = Id(10)
+        val movieId = Id("10")
 
         val result = TestFixtureData.movieTheater.findMovieById(movieId)
 
@@ -18,7 +18,7 @@ class MovieTheaterTest {
 
     @Test
     fun `영화의 id가 존재할 경우 해당 영화를 반환한다`() {
-        val movieId = Id(1)
+        val movieId = Id("1")
 
         val result = TestFixtureData.movieTheater.findMovieById(movieId)
 
@@ -27,7 +27,7 @@ class MovieTheaterTest {
 
     @Test
     fun `예매 영화와 예매 날짜를 입력하면 해당하는 상영 일정을 반환한다`() {
-        val movieId = Id(1)
+        val movieId = Id("1")
         val date = LocalDate(2026, 4, 10)
 
         val movie = TestFixtureData.movieTheater.findMovieById(movieId)
@@ -38,7 +38,7 @@ class MovieTheaterTest {
 
     @Test
     fun `예매 영화와 예매 날짜를 입력했을 때 해당하는 상영 일정이 없으면 빈 리스트를 반환한다`() {
-        val movieId = Id(1)
+        val movieId = Id("1")
         val date = LocalDate(2026, 4, 11)
 
         val movie = TestFixtureData.movieTheater.findMovieById(movieId)

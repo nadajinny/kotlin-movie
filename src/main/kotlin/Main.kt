@@ -21,9 +21,9 @@ import view.OutputView
 fun main() {
     val movies =
         listOf(
-            Movie("F1 더 무비", Id(1), 130),
-            Movie("토이 스토리", Id(2), 100),
-            Movie("아이언맨", Id(3), 126),
+            Movie("F1 더 무비", Id("1"), 130),
+            Movie("토이 스토리", Id("2"), 100),
+            Movie("아이언맨", Id("3"), 126),
         )
 
     val seats =
@@ -52,9 +52,9 @@ fun main() {
 
     val screens =
         listOf(
-            Screen(seats, Id(1)),
-            Screen(seats, Id(2)),
-            Screen(seats, Id(3)),
+            Screen(seats, Id("1")),
+            Screen(seats, Id("2")),
+            Screen(seats, Id("3")),
         )
 
     val screenings =
@@ -81,7 +81,7 @@ fun main() {
         )
     val user =
         User(
-            Id(1),
+            Id("1"),
         )
     val cartController = CartController()
     val flowController = FlowController()
