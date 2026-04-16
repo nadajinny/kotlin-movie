@@ -9,12 +9,9 @@ import persistence.CinemaDatabase
 import util.retryOnInvalidInput
 import view.InputView
 import view.OutputView
-import java.nio.file.Paths
 
 fun main() {
-    val databaseDirectory = Paths.get("storage")
-    databaseDirectory.toFile().mkdirs()
-    val cinemaDatabase = CinemaDatabase.local(databaseDirectory.resolve("movie-ticketing"))
+    val cinemaDatabase = CinemaDatabase.local()
     val movieTheater = cinemaDatabase.loadMovieTheater()
 
     var cart =
@@ -63,7 +60,7 @@ fun main() {
         }
     if (!confirm) return
     paymentController.confirmPayment(user, receipt)
-    cinemaDatabase.saveReservations(receipt.purchaseHistory)
+    cinemaDatabase.save(receipt)
 
     OutputView.printTotal(receipt)
 }
