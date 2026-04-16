@@ -37,7 +37,11 @@ internal class JdbcReservationRepository(
                             2,
                             screeningId,
                         )
-                        statement.setString(3, reservationInfo.seat.coordinate.row.toString())
+                        statement.setString(
+                            3,
+                            reservationInfo.seat.coordinate.row
+                                .toString(),
+                        )
                         statement.setInt(4, reservationInfo.seat.coordinate.column)
                         statement.addBatch()
                     }
