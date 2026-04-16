@@ -1,7 +1,6 @@
 package persistence.db
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import java.util.UUID
 
@@ -20,7 +19,7 @@ class JdbcDatabaseTest {
                 }
             }
 
-        assertEquals(1, actual)
+        assertThat(actual).isEqualTo(1)
     }
 
     @Test
@@ -51,6 +50,6 @@ class JdbcDatabaseTest {
                 }
             }
 
-        assertTrue(actual.containsAll(setOf("MOVIES", "SCREENS", "SCREENINGS", "RESERVATIONS")))
+        assertThat(actual).contains("MOVIES", "SCREENS", "SCREENINGS", "RESERVATIONS")
     }
 }
