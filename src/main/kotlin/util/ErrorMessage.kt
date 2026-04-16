@@ -10,6 +10,7 @@ object ErrorMessage {
     const val OVERLAPPING_SCREENING = "선택하신 상영 시간이 겹칩니다. 다른 시간을 선택해 주세요."
     const val INVALID_SEAT_INPUT = "입력된 값이 유효하지 않습니다."
     const val INVALID_POINT_INPUT = "포인트는 0 이상의 숫자여야 합니다."
+    const val SCREENING_NOT_FOUND = "존재하지 않는 상영입니다."
     const val SEAT_NOT_FOUND = "해당 상영관에는 해당 좌석이 존재하지 않습니다."
     const val SEAT_ALREADY_RESERVED = "해당 좌석은 이미 예약되었습니다."
     const val ID_MUST_NOT_BE_BLANK = "ID는 빈 값일 수 없습니다."
