@@ -1,6 +1,9 @@
 package persistence
 
+import domain.reservation.ReservationInfo
+import domain.seat.SeatState
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import java.util.UUID
 
@@ -26,5 +29,34 @@ class CinemaDatabaseTest {
             ),
             movieTheater.screenings.map { "${it.movie.id.value}/${it.screen.id.value}/${it.startTime}" }.sorted(),
         )
+    }
+
+    @Test
+    fun `예매 정보를 저장한 뒤 다시 조회할 수 있다`() {
+        val database = CinemaDatabase.inMemory(UUID.randomUUID().toString())
+        val movieTheater = database.loadMovieTheater()
+        val firstScreening = movieTheater.screenings.first()
+        val secondScreening = movieTheater.screenings.last()
+        val reservations =
+            listOf(
+                ReservationInfo(firstScreening, firstScreening.screen.findSeat('C', 1)!!),
+                ReservationInfo(secondScreening, secondScreening.screen.findSeat('E', 4)!!),
+            )
+
+        database.saveReservations(reservations)
+
+        val actual = database.findReservations()
+
+        assertEquals(2, actual.size)
+        assertEquals(
+            listOf(
+                "movie-iron-man/screen-3/2025-09-20T09:50/E4",
+                "movie-f1/screen-1/2025-09-20T10:20/C1",
+            ),
+            actual.map {
+                "${it.screening.movie.id.value}/${it.screening.screen.id.value}/${it.screening.startTime}/${it.seat.coordinate.row}${it.seat.coordinate.column}"
+            },
+        )
+        assertTrue(actual.all { it.seat.isReserved == SeatState.RESERVED })
     }
 }
