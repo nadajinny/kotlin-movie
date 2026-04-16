@@ -1,5 +1,7 @@
 package controller
 
+import domain.Id
+import domain.user.User
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -30,7 +32,7 @@ class PaymentControllerTest {
         // when : 포인트를 처리하면
         val exception =
             assertThrows<IllegalArgumentException> {
-                controller.getUserPoint(receipt, TestFixtureData.users.first())
+                controller.getUserPoint(receipt, User(Id(1)))
             }
 
         // then : 예외가 발생한다.
@@ -75,7 +77,7 @@ class PaymentControllerTest {
         System.setIn(ByteArrayInputStream(input.toByteArray()))
 
         // when : 결제를 적용하면
-        val result = controller.run(TestFixtureData.cart, TestFixtureData.users.first())
+        val result = controller.run(TestFixtureData.cart, User(Id(1)))
 
         // then : 할인된 총 금액이 반환된다.
         assertThat(result.totalPrice()).isEqualTo(24_415)
@@ -86,7 +88,7 @@ class PaymentControllerTest {
     fun `포인트 입력 단계에서는 실제 포인트가 차감되지 않는다`() {
         val input = "500"
         val receipt = controller.createReceipt(TestFixtureData.cart)
-        val user = TestFixtureData.users.first()
+        val user = User(Id(1))
         System.setIn(ByteArrayInputStream(input.toByteArray()))
 
         controller.getUserPoint(receipt, user)
@@ -96,7 +98,7 @@ class PaymentControllerTest {
 
     @Test
     fun `결제 확정 시 포인트가 실제로 차감된다`() {
-        val user = TestFixtureData.users[1]
+        val user = User(Id(2))
         val receipt = controller.createReceipt(TestFixtureData.cart).applyPoint(user, "500")
 
         controller.confirmPayment(user, receipt)
@@ -106,7 +108,7 @@ class PaymentControllerTest {
 
     @Test
     fun `결제 진행 중 잘못된 입력이 들어오면 올바른 입력이 들어올 때까지 다시 입력받는다`() {
-        val user = TestFixtureData.users[2]
+        val user = User(Id(3))
         val input = "abc\n3000\n500\n3\n1"
         System.setIn(ByteArrayInputStream(input.toByteArray()))
 

@@ -1,5 +1,7 @@
+import domain.Id
 import domain.purchase.PaymentMethod
 import domain.purchase.Receipt
+import domain.user.User
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -14,7 +16,7 @@ class ReceiptTest {
 
     @Test
     fun `포인트 사용 금액이 영수증에 반영된다`() {
-        val user = TestFixtureData.users.first()
+        val user = User(Id(1))
         val receipt = Receipt(TestFixtureData.reservationInfos)
 
         val result = receipt.applyPoint(user, "2000")
@@ -35,7 +37,7 @@ class ReceiptTest {
 
     @Test
     fun `결제 확정 시 사용 포인트가 실제 차감된다`() {
-        val user = TestFixtureData.users[1]
+        val user = User(Id(2))
         val receipt = Receipt(TestFixtureData.reservationInfos).applyPoint(user, "500")
 
         receipt.confirm(user)
