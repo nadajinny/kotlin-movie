@@ -6,7 +6,7 @@ import java.sql.DriverManager
 
 internal class JdbcDatabase(
     private val config: DatabaseConfig,
-){
+) {
     fun <T> withConnection(block: (Connection) -> T): T =
         DriverManager.getConnection(config.jdbcUrl, config.username, config.password).use(block)
 
