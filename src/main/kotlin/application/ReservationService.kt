@@ -3,7 +3,6 @@ package application
 import api.dto.reservation.CreateReservationRequest
 import api.dto.reservation.CreateReservationResponse
 import api.dto.reservation.ReservationItemResponse
-import domain.Id
 import domain.cinema.MovieTheater
 import domain.cinema.ScreeningSchedule
 import domain.reservation.Cart
@@ -19,25 +18,25 @@ import java.util.UUID
 @Service
 class ReservationService(
     private val cinemaDatabase: CinemaDatabase,
+    private val apiUser: User,
 ) {
     fun create(request: CreateReservationRequest): CreateReservationResponse {
         validateRequest(request)
 
         val movieTheater = cinemaDatabase.loadMovieTheater()
         val cart = buildCart(movieTheater, request)
-        val user = User(Id("user-api"))
-
         require(request.usedPoints <= cart.totalPrice()) { ErrorMessage.INVALID_POINT_INPUT }
 
+        val reservationId = UUID.randomUUID().toString()
         val paymentMethod = ApiPaymentMethod.from(request.paymentMethod)
         var receipt = cart.issueReceipt()
-        receipt = receipt.applyPoint(user, request.usedPoints.toString())
+        receipt = receipt.applyPoint(apiUser, request.usedPoints.toString())
         receipt = receipt.applyPaymentMethod(paymentMethod.toDomain())
-        receipt.confirm(user)
-        cinemaDatabase.save(receipt)
+        receipt.confirm(apiUser)
+        cinemaDatabase.save(reservationId, receipt)
 
         return CreateReservationResponse(
-            reservationId = UUID.randomUUID().toString(),
+            reservationId = reservationId,
             reservations =
                 request.reservations.map { item ->
                     ReservationItemResponse(

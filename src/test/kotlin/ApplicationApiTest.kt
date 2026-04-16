@@ -140,6 +140,56 @@ class ApplicationApiTest {
     }
 
     @Test
+    fun `같은 사용자의 포인트는 요청 간에 누적 차감된다`() {
+        client
+            .post()
+            .uri("/api/reservations")
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(
+                """
+                {
+                  "reservations": [
+                    {
+                      "screeningId": "screening-movie-f1-screen-1-2025-09-20T10:20",
+                      "seats": ["A2"]
+                    }
+                  ],
+                  "usedPoints": 1500,
+                  "paymentMethod": "CASH"
+                }
+                """.trimIndent(),
+            ).exchange()
+            .expectStatus()
+            .isCreated()
+
+        client
+            .post()
+            .uri("/api/reservations")
+            .contentType(MediaType.APPLICATION_JSON)
+            .body(
+                """
+                {
+                  "reservations": [
+                    {
+                      "screeningId": "screening-movie-f1-screen-1-2025-09-20T13:00",
+                      "seats": ["A3"]
+                    }
+                  ],
+                  "usedPoints": 600,
+                  "paymentMethod": "CASH"
+                }
+                """.trimIndent(),
+            ).exchange()
+            .expectStatus()
+            .isBadRequest()
+            .expectHeader()
+            .contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+            .expectBody()
+            .jsonPath("$.message")
+            .isEqualTo("차감액은 전체 포인트보다 작아야 합니다.")
+    }
+
+    @Test
     fun `존재하지 않는 상영에 대해 예매를 요청하면 찾을 수 없음 응답을 반환한다`() {
         client
             .post()

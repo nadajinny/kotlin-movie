@@ -23,31 +23,40 @@ internal class JdbcReservationRepository(
         if (reservationInfos.isEmpty()) return
 
         database.withTransaction { connection ->
-            val screeningIds = findScreeningIds(connection, reservationInfos)
-            connection
-                .prepareStatement(
-                    "INSERT INTO reservations (id, screening_id, seat_row, seat_column) VALUES (?, ?, ?, ?)",
-                ).use { statement ->
-                    reservationInfos.forEach { reservationInfo ->
-                        val screeningKey = ScreeningKey.from(reservationInfo.screening)
-                        val screeningId = screeningIds.getValue(screeningKey)
-
-                        statement.setString(1, reservationIdOf(screeningId, reservationInfo))
-                        statement.setString(
-                            2,
-                            screeningId,
-                        )
-                        statement.setString(
-                            3,
-                            reservationInfo.seat.coordinate.row
-                                .toString(),
-                        )
-                        statement.setInt(4, reservationInfo.seat.coordinate.column)
-                        statement.addBatch()
-                    }
-                    statement.executeBatch()
-                }
+            saveAll(connection, reservationInfos)
         }
+    }
+
+    fun saveAll(
+        connection: Connection,
+        reservationInfos: List<ReservationInfo>,
+    ) {
+        if (reservationInfos.isEmpty()) return
+
+        val screeningIds = findScreeningIds(connection, reservationInfos)
+        connection
+            .prepareStatement(
+                "INSERT INTO reservations (id, screening_id, seat_row, seat_column) VALUES (?, ?, ?, ?)",
+            ).use { statement ->
+                reservationInfos.forEach { reservationInfo ->
+                    val screeningKey = ScreeningKey.from(reservationInfo.screening)
+                    val screeningId = screeningIds.getValue(screeningKey)
+
+                    statement.setString(1, reservationIdOf(screeningId, reservationInfo))
+                    statement.setString(
+                        2,
+                        screeningId,
+                    )
+                    statement.setString(
+                        3,
+                        reservationInfo.seat.coordinate.row
+                            .toString(),
+                    )
+                    statement.setInt(4, reservationInfo.seat.coordinate.column)
+                    statement.addBatch()
+                }
+                statement.executeBatch()
+            }
     }
 
     fun findAll(): List<ReservationInfo> =

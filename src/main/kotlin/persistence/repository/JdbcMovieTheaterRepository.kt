@@ -8,6 +8,7 @@ import domain.cinema.ScreeningSchedule
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toKotlinLocalDateTime
+import persistence.ScreeningIdGenerator
 import persistence.db.JdbcDatabase
 import persistence.seed.FixedSeatLayout
 import java.sql.Connection
@@ -97,7 +98,7 @@ internal class JdbcMovieTheaterRepository(
                 "INSERT INTO screenings (id, movie_id, screen_id, start_time) VALUES (?, ?, ?, ?)",
             ).use { statement ->
                 movieTheater.screenings.forEach { screening ->
-                    statement.setString(1, screeningIdOf(screening))
+                    statement.setString(1, ScreeningIdGenerator.generate(screening))
                     statement.setString(2, screening.movie.id.value)
                     statement.setString(3, screening.screen.id.value)
                     statement.setTimestamp(4, Timestamp.valueOf(screening.startTime.toJavaLocalDateTime()))
@@ -179,9 +180,6 @@ internal class JdbcMovieTheaterRepository(
             }
 
     private fun Timestamp.toKotlinLocalDateTime(): LocalDateTime = toLocalDateTime().toKotlinLocalDateTime()
-
-    private fun screeningIdOf(screening: ScreeningSchedule): String =
-        "screening-${screening.movie.id.value}-${screening.screen.id.value}-${screening.startTime}"
 
     private data class ScreeningRow(
         val id: String,

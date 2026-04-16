@@ -11,6 +11,8 @@ internal class DatabaseInitializer(
             createScreensTable(connection)
             createScreeningsTable(connection)
             createReservationsTable(connection)
+            createReservationBatchesTable(connection)
+            createReservationBatchItemsTable(connection)
         }
     }
 
@@ -61,6 +63,36 @@ internal class DatabaseInitializer(
                 """
                 CREATE TABLE IF NOT EXISTS reservations (
                     id VARCHAR(255) PRIMARY KEY,
+                    screening_id VARCHAR(255) NOT NULL,
+                    seat_row CHAR(1) NOT NULL,
+                    seat_column INT NOT NULL
+                )
+                """.trimIndent(),
+            )
+        }
+    }
+
+    private fun createReservationBatchesTable(connection: Connection) {
+        connection.createStatement().use { statement ->
+            statement.executeUpdate(
+                """
+                CREATE TABLE IF NOT EXISTS reservation_batches (
+                    id VARCHAR(255) PRIMARY KEY,
+                    used_points INT NOT NULL,
+                    payment_method VARCHAR(255) NOT NULL,
+                    total_price INT NOT NULL
+                )
+                """.trimIndent(),
+            )
+        }
+    }
+
+    private fun createReservationBatchItemsTable(connection: Connection) {
+        connection.createStatement().use { statement ->
+            statement.executeUpdate(
+                """
+                CREATE TABLE IF NOT EXISTS reservation_batch_items (
+                    reservation_batch_id VARCHAR(255) NOT NULL,
                     screening_id VARCHAR(255) NOT NULL,
                     seat_row CHAR(1) NOT NULL,
                     seat_column INT NOT NULL

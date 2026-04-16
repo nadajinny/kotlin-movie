@@ -33,7 +33,7 @@ class ApiExceptionHandler {
             ErrorMessage.SCREENING_NOT_FOUND -> HttpStatus.NOT_FOUND
             ErrorMessage.SEAT_ALREADY_RESERVED,
             ErrorMessage.OVERLAPPING_SCREENING,
-                -> HttpStatus.CONFLICT
+            -> HttpStatus.CONFLICT
             else -> HttpStatus.BAD_REQUEST
         }
 }
