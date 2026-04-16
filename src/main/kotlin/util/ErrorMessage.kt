@@ -17,4 +17,5 @@ object ErrorMessage {
     const val ROW_MUST_BE_UPPERCASE = "열은 한 글자 대문자 알파벳이여야 합니다."
     const val COLUMN_MUST_BE_POSITIVE = "행은 양수이여야 합니다."
     const val INVALID_PAYMENT_METHOD = "유효하지 않은 결제 수단입니다."
+    const val SCREENING_NOT_FOUND = "존재하지 않는 상영입니다."
 }
